@@ -106,4 +106,5 @@
     <string name="update_notif_body">タップしてインストールしてください。</string>
     <string name="channel_update">アップデート</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="data_note">テザリングはテザリング用データ枠の代わりに通常のデータを使います。データが増えるわけではありません。</string>
 </resources>

@@ -106,4 +106,5 @@
     <string name="update_notif_body">点按即可安装。</string>
     <string name="channel_update">更新</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="data_note">热点会改用普通流量，而不是共享（热点）流量。流量不会因此增加。</string>
 </resources>

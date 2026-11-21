@@ -106,4 +106,5 @@
     <string name="update_notif_body">Toque para instalar.</string>
     <string name="channel_update">Atualizações</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="data_note">O roteador usa seus dados normais em vez da franquia de compartilhamento. Você não ganha mais dados.</string>
 </resources>

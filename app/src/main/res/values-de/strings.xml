@@ -106,4 +106,5 @@
     <string name="update_notif_body">Zum Installieren tippen.</string>
     <string name="channel_update">Updates</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="data_note">Der Hotspot nutzt dein normales Datenvolumen statt des Tethering-Kontingents. Du bekommst nicht mehr Daten.</string>
 </resources>

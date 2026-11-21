@@ -300,6 +300,11 @@ private fun Home(tick: Int) {
         UpdateSection(store, tick, busy = work is Work.Busy || work is Work.WaitingCode)
         Spacer(Modifier.height(16.dp))
         Text(
+            stringResource(R.string.data_note),
+            fontSize = 12.sp, lineHeight = 17.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(6.dp))
+        Text(
             stringResource(R.string.disclaimer),
             fontSize = 12.sp, lineHeight = 17.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

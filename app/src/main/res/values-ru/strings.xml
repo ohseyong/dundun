@@ -106,4 +106,5 @@
     <string name="update_notif_body">Нажмите, чтобы установить.</string>
     <string name="channel_update">Обновления</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="data_note">Точка доступа расходует обычный трафик вместо лимита на раздачу. Трафика больше не становится.</string>
 </resources>

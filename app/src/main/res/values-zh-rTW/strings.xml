@@ -106,4 +106,5 @@
     <string name="update_notif_body">輕觸即可安裝。</string>
     <string name="channel_update">更新</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="data_note">熱點會改用一般數據量，而不是分享（熱點）數據量。數據量不會因此增加。</string>
 </resources>

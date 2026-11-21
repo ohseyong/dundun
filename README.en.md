@@ -1,7 +1,9 @@
 # DunDun
 
-An open-source Android app that sets up your APN when your hotspot won't work. Works on Android 13 or later, including Samsung Galaxy.
-No PC, no root, no Shizuku.
+Lifts the tethering data cap. When your hotspot is blocked because you used up your tethering (shared) data allowance, DunDun sets up your APN so the hotspot can use your remaining regular data.
+Works on Android 13 or later, including Samsung Galaxy. No PC, no root, no Shizuku.
+
+> It doesn't give you unlimited data. The hotspot just uses your regular data instead of the tethering allowance; once your regular data runs out, your plan's speed limit still applies.
 
 The name comes from `dun`, the APN type this app adds.
 
@@ -15,8 +17,8 @@ The name comes from `dun`, the APN type this app adds.
 
 ## Why
 
-On Android phones, especially Galaxy with One UI 7 or later, the hotspot can get blocked once your data cap is used up and you are throttled.
-Adding the `dun` type to the internet APN you use now sends hotspot traffic the same way as normal data.
+Plans often have a separate data allowance for the hotspot. Once it runs out, or you're throttled, the hotspot can get blocked even though you still have regular data. This happens a lot on Galaxy phones with One UI 7 or later.
+Adding the `dun` type to the internet APN you use now sends hotspot traffic the same way as normal data, so it isn't tied to the tethering allowance.
 
 Doing this used to mean installing DunUnlocker and Shizuku, pairing wireless debugging, and setting the APN across many screens.
 This app does it in one app and four steps.
@@ -81,6 +83,9 @@ No contacts, location, photos/files, phone, camera, or microphone permissions.
 Wireless debugging opens powerful access while it's on. DunDun turns it off when done, but if you turned it on yourself, turn it off afterwards. DunDun stays under Paired devices in wireless debugging settings; you can remove it if you won't apply or restore again.
 
 ## FAQ
+
+**Does this make tethering unlimited?**
+No. The hotspot uses your regular data instead of the tethering allowance. Once your regular data runs out, your plan's speed limit still applies to the hotspot.
 
 **Does hotspot use still eat into my tethering/sharing allowance?**
 Probably not. Hotspot traffic goes out through the same APN as normal data instead of a tethering APN, so to the carrier it looks like normal data.
