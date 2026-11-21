@@ -1,6 +1,6 @@
 # DunDun
 
-An open-source Galaxy app that sets up your APN when your hotspot won't work.
+An open-source Android app that sets up your APN when your hotspot won't work. Works on Android 13 or later, including Samsung Galaxy.
 No PC, no root, no Shizuku.
 
 The name comes from `dun`, the APN type this app adds.
@@ -15,7 +15,7 @@ The name comes from `dun`, the APN type this app adds.
 
 ## Why
 
-On Galaxy phones with One UI 7 or later, the hotspot can get blocked once your data cap is used up and you are throttled.
+On Android phones, especially Galaxy with One UI 7 or later, the hotspot can get blocked once your data cap is used up and you are throttled.
 Adding the `dun` type to the internet APN you use now sends hotspot traffic the same way as normal data.
 
 Doing this used to mean installing DunUnlocker and Shizuku, pairing wireless debugging, and setting the APN across many screens.
@@ -54,6 +54,32 @@ You only do this once.
 
 To apply again or restore, just turn on wireless debugging and tap the button in the app. You don't need a new code.
 
+## Safety
+
+- **Fully open source**: all code is in this repo. Anyone can read it and build it.
+- **Collects no personal data**: no server, ads, or analytics. The only place the app connects to is GitHub, to check for new versions.
+- **Does one thing**: the wireless debugging connection is used only to add `dun` to your current APN, and wireless debugging is turned off when done. No root needed.
+- **Undo any time**: Restore original puts the APN type and default APN back.
+- **Signature checked**: every version is signed with the same key, and auto update only installs files signed with it.
+  - Signing certificate SHA-256: `4B:4B:E3:6B:A7:5E:D7:EA:5D:86:2D:23:8D:FC:C0:7A:10:0E:57:5C:19:49:75:05:D1:12:55:F9:17:F0:C1:66`
+  - Check a downloaded APK with `apksigner verify --print-certs dundun-*.apk`. Each release lists the APK's SHA-256.
+
+**Permissions**
+
+| Permission | Used for |
+|---|---|
+| Internet | Check and download new versions from GitHub; connect to wireless debugging on the phone |
+| Network and Wi-Fi state | Check Wi-Fi and whether it's applied right now |
+| Wi-Fi multicast | Find the wireless debugging address on the phone |
+| Notifications, full-screen notifications | Keep the pairing code notification at the top |
+| Foreground service | Keep the app running while you enter the code and apply |
+| Install packages | Install new versions downloaded from GitHub |
+| Wake lock, boot completed | Schedule the daily update check |
+
+No contacts, location, photos/files, phone, camera, or microphone permissions.
+
+Wireless debugging opens powerful access while it's on. DunDun turns it off when done, but if you turned it on yourself, turn it off afterwards. DunDun stays under Paired devices in wireless debugging settings; you can remove it if you won't apply or restore again.
+
 ## FAQ
 
 **Does hotspot use still eat into my tethering/sharing allowance?**
@@ -76,7 +102,7 @@ Restore uses the record saved when applying (original type and original default 
 ## Notes
 
 - Getting around tethering limits may break your carrier's terms, and your line could be restricted. Use it at your own judgment.
-- The full flow (pairing, apply, restore) was tested on an Android 15 emulator. Results on real Galaxy phones and carrier lines can differ. Please share yours in [Issues](https://github.com/ohseyong/dundun/issues).
+- The full flow (pairing, apply, restore) was tested on an Android 15 emulator. Results on real phones and carrier lines can differ. It uses standard Android features, so it works the same way regardless of brand. Please share yours in [Issues](https://github.com/ohseyong/dundun/issues).
 - You may need to apply again after a carrier settings update or a reset.
 - The only place the app connects to on the internet is GitHub (api.github.com, github.com), for update checks. It sends no personal data.
 
