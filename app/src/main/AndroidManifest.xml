@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <!-- GitHub 릴리스에서 받은 새 버전을 설치한다. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- 이 앱이 설치한 앱(자기 자신)의 업데이트를 확인 창 없이 설치한다(안드로이드 12+, 일반 권한). -->
+    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
 
     <!-- libadb 의 minSdk 가 1이라 빌드 도구가 옛 앱으로 보고 아래 권한을 저절로 붙인다. 쓰지 않으니 뺀다. -->

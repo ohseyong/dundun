@@ -73,7 +73,7 @@ To apply again or restore, just turn on wireless debugging and tap the button in
 | Wi-Fi multicast | Find the wireless debugging address on the phone |
 | Notifications, full-screen notifications | Keep the pairing code notification at the top |
 | Foreground service | Keep the app running while you enter the code and apply |
-| Install packages | Install new versions downloaded from GitHub |
+| Install packages, update without user action | Install new versions downloaded from GitHub. You confirm once; later updates install without asking |
 | Wake lock, boot completed | Schedule the daily update check |
 
 No contacts, location, photos/files, phone, camera, or microphone permissions.
