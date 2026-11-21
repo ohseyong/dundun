@@ -125,9 +125,14 @@ The APK is at `app/build/outputs/apk/release/app-release.apk`. To sign with your
 - [ShutterSoundZero](https://github.com/hoons1994/ShutterSoundZero): the settings shortcuts and notification code entry flow.
 - [libadb-android](https://github.com/MuntashirAkon/libadb-android), [Conscrypt](https://github.com/google/conscrypt), [Bouncy Castle](https://www.bouncycastle.org)
 
-## Made by
+## Made by ExcelKOSPI
 
-The maker of [ExcelKOSPI](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme).
+DunDun is made by the maker of [ExcelKOSPI](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme_en). Two of its services that go well with it (in Korean):
+
+- 📶 **[Korean MVNO plan comparison](https://excelkospi.ai/mvno?utm_source=dundun&utm_medium=github&utm_campaign=readme_en_mvno)**
+  If you keep running out of data, a better plan may help. It collects official MVNO plans every 6 hours and compares price, data, network and perks, including the price after discounts end.
+- 📊 **[ExcelKOSPI](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme_en_promo)**
+  Korean stock prices in a sheet that looks like Excel, so you can check the market at work. Connected a laptop to your hotspot? Give it a try.
 
 ## License
 

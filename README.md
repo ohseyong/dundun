@@ -125,9 +125,14 @@ JAVA_HOME=/path/to/jdk-17-or-later ./gradlew :app:assembleRelease
 - [셔터사운드 제로](https://github.com/hoons1994/ShutterSoundZero): 설정 화면 바로 이동, 알림 코드 입력 흐름을 참고했습니다.
 - [libadb-android](https://github.com/MuntashirAkon/libadb-android), [Conscrypt](https://github.com/google/conscrypt), [Bouncy Castle](https://www.bouncycastle.org)
 
-## 만든 곳
+## 만든 곳: 엑셀코스피
 
-[엑셀코스피](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme)를 만든 사람이 만들었습니다.
+DunDun은 [엑셀코스피](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme)를 만든 사람이 만들었습니다. 함께 쓰면 좋은 서비스 두 가지입니다.
+
+- 📶 **[알뜰폰 요금제 비교](https://excelkospi.ai/mvno?utm_source=dundun&utm_medium=github&utm_campaign=readme_mvno)**
+  공유데이터나 데이터가 자주 모자란다면 요금제를 바꾸는 것도 방법입니다. 알뜰폰 통신사 공식 요금제를 6시간마다 모아 가격·데이터·통신망·혜택 조건으로 비교하고, 할인이 끝난 뒤 요금과 1년 동안 내는 돈까지 보여 줍니다.
+- 📊 **[엑셀코스피](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme_promo)**
+  회사에서 엑셀 보는 척 주식 시세를 보는 엑셀주식창입니다. 핫스팟에 노트북을 연결했다면 엑셀코스피로 시세를 확인해 보세요.
 
 ## 라이선스
 
