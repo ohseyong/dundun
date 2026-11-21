@@ -19,7 +19,7 @@
     <string name="step3_button">Начать ввод кода</string>
     <string name="step4_title">Применить</string>
     <string name="step4_body_carrier">Добавляет dun к APN, который сейчас использует SIM для данных (%1$s).</string>
-    <string name="step4_body">Добавляет dun к используемому APN.</string>
+    <string name="step4_body">Добавляет dun в APN каждой SIM и делает его основным. Если SIM две, то в обе.</string>
     <string name="step4_button">Применить</string>
     <string name="restore_button">Вернуть как было</string>
     <string name="disclaimer">Обход ограничений на раздачу может нарушать условия оператора, и линию могут ограничить.</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">Обновления</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">Точка доступа расходует обычный трафик вместо лимита на раздачу. Трафика больше не становится.</string>
+    <string name="detail_sim_failed">Для этой SIM не получилось: %1$s</string>
+    <string name="notif_done_multi">dun добавлен на %1$s SIM.</string>
 </resources>

@@ -19,7 +19,7 @@
     <string name="step3_button">Empezar</string>
     <string name="step4_title">Aplicar</string>
     <string name="step4_body_carrier">Añade dun al APN que usa ahora tu SIM de datos (%1$s).</string>
-    <string name="step4_body">Añade dun al APN que usas ahora.</string>
+    <string name="step4_body">Añade dun al APN que usa cada SIM y lo deja como predeterminado. Con dos SIM, a las dos.</string>
     <string name="step4_button">Aplicar</string>
     <string name="restore_button">Restaurar</string>
     <string name="disclaimer">Saltarse los límites de anclaje puede incumplir las condiciones de tu operador y tu línea podría restringirse.</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">Actualizaciones</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">El punto de acceso usa tus datos normales en lugar de los datos para compartir. No obtienes más datos.</string>
+    <string name="detail_sim_failed">No se pudo aplicar a esta SIM: %1$s</string>
+    <string name="notif_done_multi">Se añadió dun a %1$s SIM.</string>
 </resources>

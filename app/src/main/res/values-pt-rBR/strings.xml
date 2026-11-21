@@ -19,7 +19,7 @@
     <string name="step3_button">Começar</string>
     <string name="step4_title">Aplicar</string>
     <string name="step4_body_carrier">Adiciona dun ao APN que seu chip de dados (%1$s) usa agora.</string>
-    <string name="step4_body">Adiciona dun ao APN que você usa agora.</string>
+    <string name="step4_body">Adiciona dun ao APN que cada chip usa e o deixa como padrão. Com dois chips, nos dois.</string>
     <string name="step4_button">Aplicar</string>
     <string name="restore_button">Restaurar</string>
     <string name="disclaimer">Contornar os limites de roteamento pode violar os termos da operadora, e sua linha pode ser restringida.</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">Atualizações</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">O roteador usa seus dados normais em vez da franquia de compartilhamento. Você não ganha mais dados.</string>
+    <string name="detail_sim_failed">Não deu para aplicar neste chip: %1$s</string>
+    <string name="notif_done_multi">dun adicionado a %1$s chips.</string>
 </resources>

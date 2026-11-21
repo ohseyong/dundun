@@ -19,7 +19,7 @@
     <string name="step3_button">開始輸入配對碼</string>
     <string name="step4_title">套用</string>
     <string name="step4_body_carrier">為行動數據 SIM 卡（%1$s）目前使用的 APN 加上 dun。</string>
-    <string name="step4_body">為目前使用的 APN 加上 dun。</string>
+    <string name="step4_body">為正在用的 APN 加上 dun 並設為預設。兩張 SIM 卡會都加上。</string>
     <string name="step4_button">套用</string>
     <string name="restore_button">還原</string>
     <string name="disclaimer">規避網路共用限制可能違反電信業者條款，門號可能會被限制使用。</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">更新</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">熱點會改用一般數據量，而不是分享（熱點）數據量。數據量不會因此增加。</string>
+    <string name="detail_sim_failed">這張 SIM 卡沒能套用：%1$s</string>
+    <string name="notif_done_multi">已為 %1$s 張 SIM 卡加上 dun。</string>
 </resources>

@@ -117,6 +117,7 @@ class AdbService : Service() {
             val busyText = if (op == "apply") R.string.busy_applying_apn else R.string.busy_restoring
             WorkState.set(Work.Busy(busyText))
             show(working(busyText))
+            // sub 는 유심 목록을 못 읽을 때와 예전 기록을 되돌릴 때 쓰는 기본값이다. 실제로는 쓰고 있는 유심 모두에 한다.
             val args = buildMap {
                 put("op", op)
                 put("sub", sub.toString())
@@ -322,7 +323,9 @@ class AdbService : Service() {
 
     private fun doneText(restored: Boolean, short: Boolean): String {
         if (restored) return getString(R.string.notif_restored_text)
-        val r = Store(this).result
+        val sims = Store(this).simResults.filter { it["status"] != "error" }
+        if (sims.size > 1) return getString(R.string.notif_done_multi, sims.size.toString())
+        val r = sims.firstOrNull().orEmpty()
         val name = r["name"].orEmpty().ifBlank { r["apn"].orEmpty() }
         val apn = r["apn"].orEmpty()
         if (name.isBlank()) return getString(R.string.notif_hotspot)

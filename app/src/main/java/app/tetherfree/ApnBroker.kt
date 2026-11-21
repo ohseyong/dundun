@@ -29,24 +29,14 @@ class ApnBroker : Instrumentation() {
         var automation: UiAutomation? = null
         try {
             val args = arguments ?: Bundle()
-            val sub = args.getString("sub")?.toIntOrNull() ?: error(targetContext.getString(R.string.broker_no_sub))
             automation = getUiAutomation(UiAutomation.FLAG_DONT_USE_ACCESSIBILITY)
             automation.adoptShellPermissionIdentity(
                 Manifest.permission.WRITE_APN_SETTINGS,
                 "android.permission.READ_PRIVILEGED_PHONE_STATE",
             )
-            runCatching {
-                val info = targetContext.getSystemService(SubscriptionManager::class.java)
-                    ?.getActiveSubscriptionInfo(sub)
-                if (info != null) {
-                    out.putString("sim_slot", (info.simSlotIndex + 1).toString())
-                    out.putString("sim_carrier", info.carrierName?.toString().orEmpty())
-                }
-            }
-            val ops = ApnOps(targetContext, sub)
             when (args.getString("op")) {
-                "apply" -> ops.apply(out)
-                "restore" -> ops.restore(args)
+                "apply" -> applyAll(args, out)
+                "restore" -> restoreAll(args)
                 else -> error("unknown op")
             }
             out.putString("status", "ok")
@@ -58,6 +48,68 @@ class ApnBroker : Instrumentation() {
             runCatching { automation?.dropShellPermissionIdentity() }
         }
         finish(0, out)
+    }
+
+    /**
+     * 쓰고 있는 유심 모두에 dun 을 더한다. 듀얼심이면 데이터 유심을 바꿔도 그대로 쓸 수 있게 둘 다 한다.
+     * 결과는 유심마다 "<subId>.<키>" 로 남긴다. 되돌릴 때도 유심마다 이 기록으로 돌린다.
+     */
+    private fun applyAll(args: Bundle, out: Bundle) {
+        val subs = activeSubs().ifEmpty { listOfNotNull(args.getString("sub")?.toIntOrNull()) }
+        if (subs.isEmpty()) error(targetContext.getString(R.string.broker_no_sub))
+        var applied = 0
+        var firstError: String? = null
+        for (sub in subs) {
+            val one = Bundle()
+            simInfo(sub, one)
+            try {
+                ApnOps(targetContext, sub).apply(one)
+                one.putString("status", "ok")
+                applied++
+            } catch (t: Throwable) {
+                Log.w(TAG, "apply failed for sub $sub", t)
+                val message = (t.message ?: t.javaClass.simpleName).replace('\n', ' ')
+                one.putString("status", "error")
+                one.putString("error", message)
+                if (firstError == null) firstError = message
+            }
+            for (key in one.keySet()) out.putString("$sub.$key", one.getString(key))
+        }
+        out.putString("subs", subs.joinToString(","))
+        if (applied == 0) error(firstError ?: targetContext.getString(R.string.broker_dun_failed))
+    }
+
+    private fun restoreAll(args: Bundle) {
+        val subs = args.getString("subs")?.split(",")?.mapNotNull { it.trim().toIntOrNull() }.orEmpty()
+        if (subs.isEmpty()) {
+            // 1.4.0 까지의 기록은 유심 하나뿐이고 유심 번호가 없다. 그때는 지금 데이터 유심으로 돌린다.
+            val sub = args.getString("sub")?.toIntOrNull() ?: error(targetContext.getString(R.string.broker_no_sub))
+            ApnOps(targetContext, sub).restore(args)
+            return
+        }
+        for (sub in subs) {
+            val one = Bundle()
+            for (key in args.keySet()) if (key.startsWith("$sub.")) one.putString(key.removePrefix("$sub."), args.getString(key))
+            if (one.getString("status") != "ok" || one.getString("source") == null) continue
+            ApnOps(targetContext, sub).restore(one)
+        }
+    }
+
+    private fun activeSubs(): List<Int> = runCatching {
+        targetContext.getSystemService(SubscriptionManager::class.java)
+            ?.activeSubscriptionInfoList
+            ?.sortedBy { it.simSlotIndex }
+            ?.map { it.subscriptionId }
+    }.getOrNull().orEmpty().distinct()
+
+    private fun simInfo(sub: Int, out: Bundle) {
+        runCatching {
+            val info = targetContext.getSystemService(SubscriptionManager::class.java)?.getActiveSubscriptionInfo(sub)
+            if (info != null) {
+                out.putString("sim_slot", (info.simSlotIndex + 1).toString())
+                out.putString("sim_carrier", info.carrierName?.toString().orEmpty())
+            }
+        }
     }
 
     companion object {

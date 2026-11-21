@@ -29,9 +29,20 @@ class Store(context: Context) {
 
     val appliedAt: Long get() = prefs.getLong("applied_at", 0L)
 
-    /** 되돌리기에 필요한 값. */
+    /** 되돌리기에 필요한 값. 유심마다 "<subId>.<키>" 이고, 1.4.0 까지의 기록은 접두사가 없다. */
     val restoreArgs: Map<String, String>
-        get() = result.filterKeys { it in RESTORE_KEYS }
+        get() = result.filterKeys { key ->
+            key == "subs" || key in RESTORE_KEYS || key.substringAfter('.', "") in RESTORE_KEYS + "status"
+        }
+
+    /** 유심별 결과. 예전 기록(유심 하나, 접두사 없음)은 한 덩어리로 돌려준다. */
+    val simResults: List<Map<String, String>>
+        get() {
+            val r = result
+            val subs = r["subs"]?.split(",")?.filter { it.isNotBlank() }.orEmpty()
+            if (subs.isEmpty()) return if (r.isEmpty()) emptyList() else listOf(r)
+            return subs.map { sub -> r.filterKeys { it.startsWith("$sub.") }.mapKeys { it.key.removePrefix("$sub.") } }
+        }
 
     fun saveApplied(values: Map<String, String>) {
         prefs.edit().apply {

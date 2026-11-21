@@ -19,7 +19,7 @@
     <string name="step3_button">开始输入配对码</string>
     <string name="step4_title">应用</string>
     <string name="step4_body_carrier">为数据 SIM 卡（%1$s）当前使用的 APN 添加 dun。</string>
-    <string name="step4_body">为当前使用的 APN 添加 dun。</string>
+    <string name="step4_body">给正在用的 APN 加上 dun 并设为默认。两张 SIM 卡会都加上。</string>
     <string name="step4_button">应用</string>
     <string name="restore_button">恢复原样</string>
     <string name="disclaimer">绕过网络共享限制可能违反运营商条款，号码可能会被限制使用。</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">更新</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">热点会改用普通流量，而不是共享（热点）流量。流量不会因此增加。</string>
+    <string name="detail_sim_failed">这张 SIM 卡没能应用：%1$s</string>
+    <string name="notif_done_multi">已给 %1$s 张 SIM 卡加上 dun。</string>
 </resources>

@@ -222,7 +222,7 @@ private fun Home(tick: Int) {
         Spacer(Modifier.height(16.dp))
 
         if (applied) {
-            DoneCard(result = if (recorded) store.result else emptyMap(), appliedAt = store.appliedAt, carrier = carrier, onHotspot = { Sys.openHotspot(context) })
+            DoneCard(sims = if (recorded) store.simResults else emptyList(), appliedAt = store.appliedAt, carrier = carrier, onHotspot = { Sys.openHotspot(context) })
         } else {
             // 다시 적용할 때도 무선 디버깅은 켜져 있어야 하니, 앞 단계가 끝나야 다음 단계가 열린다.
             val s1 = if (devOn) StepState.Done else StepState.Current
@@ -263,7 +263,7 @@ private fun Home(tick: Int) {
                     }
                 }
                 Divider()
-                Step(4, stringResource(R.string.step4_title), if (carrier.isNotBlank()) stringResource(R.string.step4_body_carrier, carrier) else stringResource(R.string.step4_body), s4) {
+                Step(4, stringResource(R.string.step4_title), stringResource(R.string.step4_body), s4) {
                     when (val w = work) {
                         is Work.Busy -> Status(stringResource(w.text), busy = true)
                         else -> Primary(stringResource(R.string.step4_button)) { runWithDebugging(AdbService.ACTION_APPLY) }
@@ -419,7 +419,7 @@ private fun LiveStatus(live: Sys.Live, recorded: Boolean) {
 }
 
 @Composable
-private fun DoneCard(result: Map<String, String>, appliedAt: Long, carrier: String, onHotspot: () -> Unit) {
+private fun DoneCard(sims: List<Map<String, String>>, appliedAt: Long, carrier: String, onHotspot: () -> Unit) {
     val scheme = MaterialTheme.colorScheme
     Card {
         Column(Modifier.padding(20.dp)) {
@@ -455,34 +455,42 @@ private fun DoneCard(result: Map<String, String>, appliedAt: Long, carrier: Stri
             }
         }
         HorizontalDivider(color = scheme.outlineVariant)
-        if (result.isEmpty()) {
+        if (sims.isEmpty()) {
             Text(
                 stringResource(R.string.detail_no_record), fontSize = 14.sp, lineHeight = 20.sp,
                 color = scheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             )
             return@Card
         }
-        Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(stringResource(R.string.detail_header), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurfaceVariant)
-            val sim = listOfNotNull(
-                result["sim_carrier"]?.takeIf { it.isNotBlank() } ?: carrier.takeIf { it.isNotBlank() },
-                result["sim_slot"]?.takeIf { it.isNotBlank() }?.let { stringResource(R.string.detail_sim_slot, it) },
-            ).joinToString(" · ")
-            Detail(stringResource(R.string.detail_sim), sim)
-            Detail(stringResource(R.string.detail_name), result["name"].orEmpty())
-            Detail(stringResource(R.string.detail_apn), result["apn"].orEmpty())
-            val mcc = result["mcc"].orEmpty()
-            val mnc = result["mnc"].orEmpty()
-            if (mcc.isNotBlank()) Detail(stringResource(R.string.detail_mcc_mnc), "$mcc / $mnc")
-            DetailRow(stringResource(R.string.detail_type)) { TypeText(result["type"].orEmpty()) }
-            val orig = result["orig"].orEmpty()
-            if (result["mode"] != "already" && orig.isNotBlank()) DetailRow(stringResource(R.string.detail_old_type)) { TypeText(orig, highlight = false) }
-            val protocol = result["protocol"].orEmpty()
-            if (protocol.isNotBlank()) Detail(stringResource(R.string.detail_protocol), protocol)
-            Detail(stringResource(R.string.detail_mode), stringResource(modeLabel(result["mode"])))
-            Detail(stringResource(R.string.detail_preferred), stringResource(if (result["preferred"] == "false") R.string.detail_preferred_no else R.string.detail_preferred_yes))
-            if (appliedAt > 0) {
-                Detail(stringResource(R.string.detail_time), java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(appliedAt)))
+        // 유심마다 한 묶음. 듀얼심이면 두 묶음이 줄로 나뉜다.
+        sims.forEachIndexed { index, result ->
+            if (index > 0) HorizontalDivider(Modifier.padding(horizontal = 20.dp), color = scheme.outlineVariant)
+            Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (index == 0) Text(stringResource(R.string.detail_header), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurfaceVariant)
+                val sim = listOfNotNull(
+                    result["sim_carrier"]?.takeIf { it.isNotBlank() } ?: carrier.takeIf { it.isNotBlank() && sims.size == 1 },
+                    result["sim_slot"]?.takeIf { it.isNotBlank() }?.let { stringResource(R.string.detail_sim_slot, it) },
+                ).joinToString(" · ")
+                Detail(stringResource(R.string.detail_sim), sim)
+                if (result["status"] == "error") {
+                    Text(stringResource(R.string.detail_sim_failed, result["error"].orEmpty()), fontSize = 14.sp, lineHeight = 20.sp, color = scheme.error)
+                    return@Column
+                }
+                Detail(stringResource(R.string.detail_name), result["name"].orEmpty())
+                Detail(stringResource(R.string.detail_apn), result["apn"].orEmpty())
+                val mcc = result["mcc"].orEmpty()
+                val mnc = result["mnc"].orEmpty()
+                if (mcc.isNotBlank()) Detail(stringResource(R.string.detail_mcc_mnc), "$mcc / $mnc")
+                DetailRow(stringResource(R.string.detail_type)) { TypeText(result["type"].orEmpty()) }
+                val orig = result["orig"].orEmpty()
+                if (result["mode"] != "already" && orig.isNotBlank()) DetailRow(stringResource(R.string.detail_old_type)) { TypeText(orig, highlight = false) }
+                val protocol = result["protocol"].orEmpty()
+                if (protocol.isNotBlank()) Detail(stringResource(R.string.detail_protocol), protocol)
+                Detail(stringResource(R.string.detail_mode), stringResource(modeLabel(result["mode"])))
+                Detail(stringResource(R.string.detail_preferred), stringResource(if (result["preferred"] == "false") R.string.detail_preferred_no else R.string.detail_preferred_yes))
+                if (appliedAt > 0 && index == sims.lastIndex) {
+                    Detail(stringResource(R.string.detail_time), java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(appliedAt)))
+                }
             }
         }
     }

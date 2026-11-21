@@ -19,7 +19,7 @@
     <string name="step3_button">Start code entry</string>
     <string name="step4_title">Apply</string>
     <string name="step4_body_carrier">Adds dun to the APN your data SIM (%1$s) is using now.</string>
-    <string name="step4_body">Adds dun to the APN you are using now.</string>
+    <string name="step4_body">Adds dun to the APN each SIM uses now and sets it as default. With two SIMs, both get it.</string>
     <string name="step4_button">Apply</string>
     <string name="restore_button">Restore original</string>
     <string name="disclaimer">Getting around tethering limits may break your carrier\'s terms, and your line could be restricted.</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">Updates</string>
     <string name="promo_excelkospi">Laptop connected? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">Hotspot traffic comes out of your regular data instead of your tethering allowance. You don\'t get more data.</string>
+    <string name="detail_sim_failed">Couldn\'t apply to this SIM: %1$s</string>
+    <string name="notif_done_multi">Added dun to %1$s SIMs.</string>
 </resources>

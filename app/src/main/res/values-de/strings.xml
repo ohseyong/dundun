@@ -19,7 +19,7 @@
     <string name="step3_button">Starten</string>
     <string name="step4_title">Anwenden</string>
     <string name="step4_body_carrier">Fügt dem APN deiner Daten-SIM (%1$s) dun hinzu.</string>
-    <string name="step4_body">Fügt dem aktuell genutzten APN dun hinzu.</string>
+    <string name="step4_body">Fügt dem APN jeder SIM dun hinzu und setzt ihn als Standard. Bei zwei SIMs bei beiden.</string>
     <string name="step4_button">Anwenden</string>
     <string name="restore_button">Wiederherstellen</string>
     <string name="disclaimer">Das Umgehen von Tethering-Grenzen kann gegen die Bedingungen deines Anbieters verstoßen, und dein Anschluss kann eingeschränkt werden.</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">Updates</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">Der Hotspot nutzt dein normales Datenvolumen statt des Tethering-Kontingents. Du bekommst nicht mehr Daten.</string>
+    <string name="detail_sim_failed">Bei dieser SIM ging es nicht: %1$s</string>
+    <string name="notif_done_multi">dun bei %1$s SIMs hinzugefügt.</string>
 </resources>

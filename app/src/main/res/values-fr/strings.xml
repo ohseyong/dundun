@@ -19,7 +19,7 @@
     <string name="step3_button">Commencer</string>
     <string name="step4_title">Appliquer</string>
     <string name="step4_body_carrier">Ajoute dun à l’APN utilisé par votre SIM de données (%1$s).</string>
-    <string name="step4_body">Ajoute dun à l’APN que vous utilisez.</string>
+    <string name="step4_body">Ajoute dun à l’APN utilisé par chaque SIM et le met par défaut. Avec deux SIM, les deux.</string>
     <string name="step4_button">Appliquer</string>
     <string name="restore_button">Rétablir</string>
     <string name="disclaimer">Contourner les limites de partage de connexion peut enfreindre les conditions de votre opérateur et votre ligne peut être restreinte.</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">Mises à jour</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">Le partage de connexion utilise vos données normales au lieu du forfait partage. Vous n’obtenez pas plus de données.</string>
+    <string name="detail_sim_failed">Impossible d’appliquer à cette SIM : %1$s</string>
+    <string name="notif_done_multi">dun ajouté à %1$s SIM.</string>
 </resources>

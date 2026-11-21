@@ -19,7 +19,7 @@
     <string name="step3_button">コード入力を開始</string>
     <string name="step4_title">適用</string>
     <string name="step4_body_carrier">データ用SIM（%1$s）で今使っているAPNにdunを追加します。</string>
-    <string name="step4_body">今使っているAPNにdunを追加します。</string>
+    <string name="step4_body">使っているAPNにdunを入れてデフォルトにします。SIMが2枚なら両方に入れます。</string>
     <string name="step4_button">適用する</string>
     <string name="restore_button">元に戻す</string>
     <string name="disclaimer">テザリング制限を回避すると、通信会社の規約により回線が制限される場合があります。</string>
@@ -107,4 +107,6 @@
     <string name="channel_update">アップデート</string>
     <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
     <string name="data_note">テザリングはテザリング用データ枠の代わりに通常のデータを使います。データが増えるわけではありません。</string>
+    <string name="detail_sim_failed">このSIMには適用できませんでした: %1$s</string>
+    <string name="notif_done_multi">SIM %1$s枚にdunを入れました。</string>
 </resources>
