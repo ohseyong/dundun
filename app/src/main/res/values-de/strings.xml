@@ -89,4 +89,20 @@
     <string name="live_unknown_body">Mobile Daten einschalten, um es zu prüfen.</string>
     <string name="live_unknown_body_record">Letzter Stand: angewendet. Mobile Daten einschalten, um es zu prüfen.</string>
     <string name="detail_no_record">Diese App hat keinen Eintrag, dass sie es angewendet hat. Es wurde wohl anders eingerichtet.</string>
+    <string name="update_version">Version %1$s</string>
+    <string name="update_checking">Suche nach Updates</string>
+    <string name="update_latest">Aktuell</string>
+    <string name="update_available">Neue Version %1$s</string>
+    <string name="update_downloading">Lade herunter %1$s</string>
+    <string name="update_installing">Wird installiert</string>
+    <string name="update_failed">Update konnte nicht geladen werden</string>
+    <string name="update_button">Aktualisieren</string>
+    <string name="update_check">Erneut prüfen</string>
+    <string name="update_allow_source">Für Updates bitte Installationen aus dieser App erlauben.</string>
+    <string name="update_allow_button">Installation erlauben</string>
+    <string name="update_auto">Automatische Updates</string>
+    <string name="update_auto_body">Lädt neue Versionen selbst von GitHub und installiert sie.</string>
+    <string name="update_notif_title">Neue Version %1$s</string>
+    <string name="update_notif_body">Zum Installieren tippen.</string>
+    <string name="channel_update">Updates</string>
 </resources>

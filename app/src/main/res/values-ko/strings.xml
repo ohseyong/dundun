@@ -89,4 +89,20 @@
     <string name="live_unknown_body">모바일 데이터를 켜면 확인됩니다.</string>
     <string name="live_unknown_body_record">마지막 기록은 적용됨입니다. 모바일 데이터를 켜면 확인됩니다.</string>
     <string name="detail_no_record">이 앱으로 적용한 기록은 없습니다. 다른 방법으로 적용된 것 같습니다.</string>
+    <string name="update_version">버전 %1$s</string>
+    <string name="update_checking">업데이트 확인 중</string>
+    <string name="update_latest">최신 버전입니다</string>
+    <string name="update_available">새 버전 %1$s</string>
+    <string name="update_downloading">받는 중 %1$s</string>
+    <string name="update_installing">설치하는 중</string>
+    <string name="update_failed">업데이트를 받지 못했습니다</string>
+    <string name="update_button">업데이트</string>
+    <string name="update_check">다시 확인</string>
+    <string name="update_allow_source">업데이트하려면 이 앱의 설치 허용이 필요합니다.</string>
+    <string name="update_allow_button">설치 허용</string>
+    <string name="update_auto">자동 업데이트</string>
+    <string name="update_auto_body">새 버전이 나오면 GitHub에서 알아서 받아 설치합니다.</string>
+    <string name="update_notif_title">새 버전 %1$s</string>
+    <string name="update_notif_body">눌러서 설치하세요.</string>
+    <string name="channel_update">업데이트</string>
 </resources>

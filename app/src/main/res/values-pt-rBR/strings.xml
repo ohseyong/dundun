@@ -89,4 +89,20 @@
     <string name="live_unknown_body">Ative os dados móveis para verificar.</string>
     <string name="live_unknown_body_record">Último registro: aplicado. Ative os dados móveis para verificar.</string>
     <string name="detail_no_record">Este app não tem registro de ter aplicado. Pode ter sido configurado de outro jeito.</string>
+    <string name="update_version">Versão %1$s</string>
+    <string name="update_checking">Procurando atualizações</string>
+    <string name="update_latest">Está atualizado</string>
+    <string name="update_available">Nova versão %1$s</string>
+    <string name="update_downloading">Baixando %1$s</string>
+    <string name="update_installing">Instalando</string>
+    <string name="update_failed">Não foi possível obter a atualização</string>
+    <string name="update_button">Atualizar</string>
+    <string name="update_check">Verificar de novo</string>
+    <string name="update_allow_source">Para atualizar, permita instalar apps a partir deste app.</string>
+    <string name="update_allow_button">Permitir instalação</string>
+    <string name="update_auto">Atualização automática</string>
+    <string name="update_auto_body">Baixa e instala sozinho as novas versões do GitHub.</string>
+    <string name="update_notif_title">Nova versão %1$s</string>
+    <string name="update_notif_body">Toque para instalar.</string>
+    <string name="channel_update">Atualizações</string>
 </resources>

@@ -89,4 +89,20 @@
     <string name="live_unknown_body">Turn on mobile data to check.</string>
     <string name="live_unknown_body_record">Last record: applied. Turn on mobile data to check.</string>
     <string name="detail_no_record">This app has no record of applying it. It may have been set another way.</string>
+    <string name="update_version">Version %1$s</string>
+    <string name="update_checking">Checking for updates</string>
+    <string name="update_latest">Up to date</string>
+    <string name="update_available">New version %1$s</string>
+    <string name="update_downloading">Downloading %1$s</string>
+    <string name="update_installing">Installing</string>
+    <string name="update_failed">Couldn\'t get the update</string>
+    <string name="update_button">Update</string>
+    <string name="update_check">Check again</string>
+    <string name="update_allow_source">Allow installs from this app to update.</string>
+    <string name="update_allow_button">Allow installs</string>
+    <string name="update_auto">Auto update</string>
+    <string name="update_auto_body">Gets and installs new versions from GitHub on its own.</string>
+    <string name="update_notif_title">New version %1$s</string>
+    <string name="update_notif_body">Tap to install.</string>
+    <string name="channel_update">Updates</string>
 </resources>

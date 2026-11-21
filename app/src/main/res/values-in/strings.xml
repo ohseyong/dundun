@@ -89,4 +89,20 @@
     <string name="live_unknown_body">Nyalakan data seluler untuk mengecek.</string>
     <string name="live_unknown_body_record">Catatan terakhir: sudah diterapkan. Nyalakan data seluler untuk mengecek.</string>
     <string name="detail_no_record">Aplikasi ini tidak punya catatan pernah menerapkannya. Mungkin diatur dengan cara lain.</string>
+    <string name="update_version">Versi %1$s</string>
+    <string name="update_checking">Memeriksa pembaruan</string>
+    <string name="update_latest">Sudah versi terbaru</string>
+    <string name="update_available">Versi baru %1$s</string>
+    <string name="update_downloading">Mengunduh %1$s</string>
+    <string name="update_installing">Memasang</string>
+    <string name="update_failed">Tidak bisa mengambil pembaruan</string>
+    <string name="update_button">Perbarui</string>
+    <string name="update_check">Periksa lagi</string>
+    <string name="update_allow_source">Untuk memperbarui, izinkan pemasangan dari aplikasi ini.</string>
+    <string name="update_allow_button">Izinkan pemasangan</string>
+    <string name="update_auto">Pembaruan otomatis</string>
+    <string name="update_auto_body">Mengunduh dan memasang versi baru dari GitHub secara otomatis.</string>
+    <string name="update_notif_title">Versi baru %1$s</string>
+    <string name="update_notif_body">Ketuk untuk memasang.</string>
+    <string name="channel_update">Pembaruan</string>
 </resources>

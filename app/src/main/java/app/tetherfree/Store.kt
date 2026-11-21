@@ -17,6 +17,10 @@ class Store(context: Context) {
 
     val applied: Boolean get() = prefs.getBoolean("applied", false)
 
+    var autoUpdate: Boolean
+        get() = prefs.getBoolean("auto_update", true)
+        set(v) = prefs.edit().putBoolean("auto_update", v).apply()
+
     /** 마지막 적용 결과. ApnBroker 가 돌려준 값 그대로다. */
     val result: Map<String, String>
         get() = prefs.all.filterKeys { it.startsWith(PREFIX) }

@@ -29,6 +29,7 @@ This app does it in one app and four steps.
 - **Shows what changed**: which SIM, which APN, and the type before and after.
 - **Cleans up**: turns wireless debugging off when done.
 - **Restore**: one tap puts the APN back the way it was.
+- **Auto update**: checks this repo's latest release when you open the app and once a day, then downloads and installs new versions. It only installs an APK signed with the same key as the installed app. The first time you need to allow installs from this app and confirm; after that updates can install without asking. You can turn it off at the bottom of the app.
 - **12 languages**: English, 한국어, 日本語, 简体中文, 繁體中文, Español, Português (Brasil), Français, Deutsch, Русский, Tiếng Việt, Bahasa Indonesia. You can also pick a language just for this app under "App languages" in phone settings.
 
 <img src="docs/screenshots/languages.png" width="760" alt="English, Japanese, Chinese, Spanish">
@@ -75,6 +76,7 @@ Restore uses the record saved when applying (original type and original default 
 - Getting around tethering limits may break your carrier's terms, and your line could be restricted. Use it at your own judgment.
 - The full flow (pairing, apply, restore) was tested on an Android 15 emulator. Results on real Galaxy phones and carrier lines can differ. Please share yours in [Issues](https://github.com/ohseyong/tether-free/issues).
 - You may need to apply again after a carrier settings update or a reset.
+- The only place the app connects to on the internet is GitHub (api.github.com, github.com), for update checks. It sends no personal data.
 
 ## Build
 

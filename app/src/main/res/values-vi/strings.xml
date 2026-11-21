@@ -89,4 +89,20 @@
     <string name="live_unknown_body">Bật dữ liệu di động để kiểm tra.</string>
     <string name="live_unknown_body_record">Ghi nhận gần nhất: đã áp dụng. Bật dữ liệu di động để kiểm tra.</string>
     <string name="detail_no_record">Ứng dụng này không có ghi nhận đã áp dụng. Có thể đã được cài bằng cách khác.</string>
+    <string name="update_version">Phiên bản %1$s</string>
+    <string name="update_checking">Đang kiểm tra cập nhật</string>
+    <string name="update_latest">Đã là bản mới nhất</string>
+    <string name="update_available">Phiên bản mới %1$s</string>
+    <string name="update_downloading">Đang tải %1$s</string>
+    <string name="update_installing">Đang cài đặt</string>
+    <string name="update_failed">Không tải được bản cập nhật</string>
+    <string name="update_button">Cập nhật</string>
+    <string name="update_check">Kiểm tra lại</string>
+    <string name="update_allow_source">Để cập nhật, hãy cho phép cài ứng dụng từ ứng dụng này.</string>
+    <string name="update_allow_button">Cho phép cài đặt</string>
+    <string name="update_auto">Tự động cập nhật</string>
+    <string name="update_auto_body">Tự tải và cài phiên bản mới từ GitHub.</string>
+    <string name="update_notif_title">Phiên bản mới %1$s</string>
+    <string name="update_notif_body">Chạm để cài đặt.</string>
+    <string name="channel_update">Cập nhật</string>
 </resources>

@@ -89,4 +89,20 @@
     <string name="live_unknown_body">モバイルデータをオンにすると確認できます。</string>
     <string name="live_unknown_body_record">最後の記録は適用済みです。モバイルデータをオンにすると確認できます。</string>
     <string name="detail_no_record">このアプリで適用した記録はありません。別の方法で適用されたようです。</string>
+    <string name="update_version">バージョン %1$s</string>
+    <string name="update_checking">アップデートを確認中</string>
+    <string name="update_latest">最新バージョンです</string>
+    <string name="update_available">新しいバージョン %1$s</string>
+    <string name="update_downloading">ダウンロード中 %1$s</string>
+    <string name="update_installing">インストール中</string>
+    <string name="update_failed">アップデートを取得できませんでした</string>
+    <string name="update_button">アップデート</string>
+    <string name="update_check">もう一度確認</string>
+    <string name="update_allow_source">アップデートにはこのアプリからのインストール許可が必要です。</string>
+    <string name="update_allow_button">インストールを許可</string>
+    <string name="update_auto">自動アップデート</string>
+    <string name="update_auto_body">新しいバージョンが出たらGitHubから自動で取得してインストールします。</string>
+    <string name="update_notif_title">新しいバージョン %1$s</string>
+    <string name="update_notif_body">タップしてインストールしてください。</string>
+    <string name="channel_update">アップデート</string>
 </resources>

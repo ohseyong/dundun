@@ -40,6 +40,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.Switch
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -80,11 +86,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent { AppTheme { Home(resumeTick.intValue) } }
+        Updater.schedule(this, Store(this).autoUpdate)
     }
 
     override fun onResume() {
         super.onResume()
+        Updater.foreground = true
         resumeTick.intValue++
+    }
+
+    override fun onPause() {
+        Updater.foreground = false
+        super.onPause()
     }
 }
 
@@ -283,10 +296,85 @@ private fun Home(tick: Int) {
         }
 
         Spacer(Modifier.height(24.dp))
+        UpdateSection(store, tick, busy = work is Work.Busy || work is Work.WaitingCode)
+        Spacer(Modifier.height(16.dp))
         Text(
             stringResource(R.string.disclaimer),
             fontSize = 12.sp, lineHeight = 17.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+/** 버전, 업데이트 버튼, 자동 업데이트 스위치. */
+@Composable
+private fun UpdateSection(store: Store, tick: Int, busy: Boolean) {
+    val context = LocalContext.current
+    val scheme = MaterialTheme.colorScheme
+    val scope = rememberCoroutineScope()
+    val state by Updater.flow.collectAsState()
+    var auto by remember { mutableStateOf(store.autoUpdate) }
+
+    // 앱을 열면 한 번 확인한다. 자동 업데이트가 켜져 있고 설정 중이 아니면 바로 받는다.
+    LaunchedEffect(Unit) {
+        val release = Updater.check(context)
+        if (release != null && store.autoUpdate && !busy) Updater.downloadAndInstall(context, release)
+    }
+    // 설치 허용 화면에서 돌아오면 이어서 받는다.
+    LaunchedEffect(tick) {
+        val s = Updater.flow.value
+        if (s is Updater.State.NeedPermission && context.packageManager.canRequestPackageInstalls()) {
+            Updater.downloadAndInstall(context, s.release)
+        }
+    }
+
+    val status = when (val s = state) {
+        Updater.State.Idle, Updater.State.Checking -> stringResource(R.string.update_checking)
+        Updater.State.Latest -> stringResource(R.string.update_latest)
+        is Updater.State.Available -> stringResource(R.string.update_available, s.release.version)
+        is Updater.State.Downloading -> stringResource(R.string.update_downloading, "${s.percent}%")
+        is Updater.State.NeedPermission -> stringResource(R.string.update_allow_source)
+        Updater.State.Installing -> stringResource(R.string.update_installing)
+        Updater.State.Failed -> stringResource(R.string.update_failed)
+    }
+    Card {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.update_version, Updater.currentVersion(context)), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurface)
+                Spacer(Modifier.height(2.dp))
+                Text(status, fontSize = 14.sp, lineHeight = 20.sp, color = if (state is Updater.State.Available) scheme.primary else scheme.onSurfaceVariant)
+            }
+            Spacer(Modifier.width(12.dp))
+            when (val s = state) {
+                is Updater.State.Available -> Primary(stringResource(R.string.update_button)) {
+                    scope.launch { Updater.downloadAndInstall(context, s.release) }
+                }
+                is Updater.State.NeedPermission -> Secondary(stringResource(R.string.update_allow_button)) {
+                    runCatching {
+                        context.startActivity(Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:${context.packageName}")))
+                    }
+                }
+                Updater.State.Failed -> Secondary(stringResource(R.string.update_check)) {
+                    scope.launch { Updater.check(context) }
+                }
+                is Updater.State.Downloading, Updater.State.Installing, Updater.State.Checking ->
+                    CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+                else -> Unit
+            }
+        }
+        HorizontalDivider(color = scheme.outlineVariant)
+        Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.update_auto), fontSize = 15.sp, color = scheme.onSurface)
+                Spacer(Modifier.height(2.dp))
+                Text(stringResource(R.string.update_auto_body), fontSize = 13.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)
+            }
+            Spacer(Modifier.width(12.dp))
+            Switch(checked = auto, onCheckedChange = {
+                auto = it
+                store.autoUpdate = it
+                Updater.schedule(context, it)
+            })
+        }
     }
 }
 

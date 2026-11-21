@@ -89,4 +89,20 @@
     <string name="live_unknown_body">開啟行動數據後即可確認。</string>
     <string name="live_unknown_body_record">上次紀錄為已套用。開啟行動數據後即可確認。</string>
     <string name="detail_no_record">沒有用本 App 套用的紀錄，可能是用其他方式設定的。</string>
+    <string name="update_version">版本 %1$s</string>
+    <string name="update_checking">正在檢查更新</string>
+    <string name="update_latest">已是最新版本</string>
+    <string name="update_available">新版本 %1$s</string>
+    <string name="update_downloading">正在下載 %1$s</string>
+    <string name="update_installing">正在安裝</string>
+    <string name="update_failed">無法取得更新</string>
+    <string name="update_button">更新</string>
+    <string name="update_check">重新檢查</string>
+    <string name="update_allow_source">更新需要允許此 App 安裝應用程式。</string>
+    <string name="update_allow_button">允許安裝</string>
+    <string name="update_auto">自動更新</string>
+    <string name="update_auto_body">有新版本時自動從 GitHub 下載並安裝。</string>
+    <string name="update_notif_title">新版本 %1$s</string>
+    <string name="update_notif_body">輕觸即可安裝。</string>
+    <string name="channel_update">更新</string>
 </resources>

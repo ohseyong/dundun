@@ -89,4 +89,20 @@
     <string name="live_unknown_body">打开移动数据后即可确认。</string>
     <string name="live_unknown_body_record">上次记录为已应用。打开移动数据后即可确认。</string>
     <string name="detail_no_record">没有用本应用应用过的记录，可能是用其他方式设置的。</string>
+    <string name="update_version">版本 %1$s</string>
+    <string name="update_checking">正在检查更新</string>
+    <string name="update_latest">已是最新版本</string>
+    <string name="update_available">新版本 %1$s</string>
+    <string name="update_downloading">正在下载 %1$s</string>
+    <string name="update_installing">正在安装</string>
+    <string name="update_failed">无法获取更新</string>
+    <string name="update_button">更新</string>
+    <string name="update_check">重新检查</string>
+    <string name="update_allow_source">更新需要允许此应用安装应用。</string>
+    <string name="update_allow_button">允许安装</string>
+    <string name="update_auto">自动更新</string>
+    <string name="update_auto_body">有新版本时自动从 GitHub 下载并安装。</string>
+    <string name="update_notif_title">新版本 %1$s</string>
+    <string name="update_notif_body">点按即可安装。</string>
+    <string name="channel_update">更新</string>
 </resources>

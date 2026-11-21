@@ -89,4 +89,20 @@
     <string name="live_unknown_body">Включите мобильные данные, чтобы проверить.</string>
     <string name="live_unknown_body_record">По последней записи — применено. Включите мобильные данные, чтобы проверить.</string>
     <string name="detail_no_record">У этого приложения нет записи о применении. Похоже, это настроено другим способом.</string>
+    <string name="update_version">Версия %1$s</string>
+    <string name="update_checking">Проверка обновлений</string>
+    <string name="update_latest">Последняя версия</string>
+    <string name="update_available">Новая версия %1$s</string>
+    <string name="update_downloading">Загрузка %1$s</string>
+    <string name="update_installing">Установка</string>
+    <string name="update_failed">Не удалось получить обновление</string>
+    <string name="update_button">Обновить</string>
+    <string name="update_check">Проверить снова</string>
+    <string name="update_allow_source">Для обновления разрешите установку из этого приложения.</string>
+    <string name="update_allow_button">Разрешить установку</string>
+    <string name="update_auto">Автообновление</string>
+    <string name="update_auto_body">Само скачивает и устанавливает новые версии с GitHub.</string>
+    <string name="update_notif_title">Новая версия %1$s</string>
+    <string name="update_notif_body">Нажмите, чтобы установить.</string>
+    <string name="channel_update">Обновления</string>
 </resources>
