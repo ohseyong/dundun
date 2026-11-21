@@ -1,0 +1,15 @@
+Tether Unlock (테더링 풀기)
+Copyright 2026 Seyong Oh
+
+This product includes software developed by third parties:
+
+- LibADB Android (https://github.com/MuntashirAkon/libadb-android)
+  Copyright 2021 Muntashir Al-Islam. Used under the Apache License 2.0
+  (dual licensed GPL-3.0-or-later OR Apache-2.0).
+- Conscrypt (https://github.com/google/conscrypt), Apache License 2.0.
+- Bouncy Castle (https://www.bouncycastle.org), MIT-style Bouncy Castle License.
+- AndroidX / Jetpack Compose, Apache License 2.0.
+
+The approach of adding the "dun" type to the current APN through the
+shell's WRITE_APN_SETTINGS permission comes from DunUnlocker
+(https://github.com/naijun0403/DunUnlocker). No DunUnlocker code is included.
