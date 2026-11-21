@@ -65,6 +65,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -429,6 +430,24 @@ private fun DoneCard(result: Map<String, String>, appliedAt: Long, carrier: Stri
             Text(stringResource(R.string.done_body), fontSize = 15.sp, color = scheme.onSurface)
             Spacer(Modifier.height(16.dp))
             Primary(stringResource(R.string.done_hotspot), onHotspot)
+            // 핫스팟에 노트북을 붙인 사람에게 엑셀코스피를 권한다. 한국 주식 사이트라 한국어 화면에서만.
+            if (LocalConfiguration.current.locales[0].language == "ko") {
+                val context = LocalContext.current
+                Spacer(Modifier.height(14.dp))
+                Text(
+                    stringResource(R.string.promo_excelkospi) + " →",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = scheme.primary,
+                    modifier = Modifier
+                        .clickable {
+                            runCatching {
+                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(EXCELKOSPI_URL)))
+                            }
+                        }
+                        .padding(vertical = 6.dp),
+                )
+            }
         }
         HorizontalDivider(color = scheme.outlineVariant)
         if (result.isEmpty()) {
@@ -463,6 +482,8 @@ private fun DoneCard(result: Map<String, String>, appliedAt: Long, carrier: Stri
         }
     }
 }
+
+private const val EXCELKOSPI_URL = "https://excelkospi.ai/?utm_source=dundun&utm_medium=app&utm_campaign=done"
 
 @StringRes
 private fun modeLabel(mode: String?): Int = when (mode) {

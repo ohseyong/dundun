@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit
  * 받은 APK는 지금 설치된 앱과 같은 키로 서명됐는지, 버전이 더 높은지 확인한 뒤에만 설치한다.
  */
 object Updater {
-    const val REPO = "ohseyong/tether-free"
+    const val REPO = "ohseyong/dundun"
     private const val TAG = "Updater"
     private const val CHANNEL = "update"
     private const val NOTIFY_ID = 21
@@ -84,7 +84,7 @@ object Updater {
                 connectTimeout = 15_000
                 readTimeout = 15_000
                 setRequestProperty("Accept", "application/vnd.github+json")
-                setRequestProperty("User-Agent", "TetherUnlock-Updater")
+                setRequestProperty("User-Agent", "DunDun-Updater")
             }
             val body = conn.inputStream.bufferedReader().use { it.readText() }
             val json = JSONObject(body)
@@ -131,13 +131,13 @@ object Updater {
     private fun download(context: Context, release: Release): File {
         val dir = File(context.cacheDir, "update").apply { mkdirs() }
         dir.listFiles()?.forEach { it.delete() }
-        val file = File(dir, "tether-unlock-${release.version}.apk")
+        val file = File(dir, "dundun-${release.version}.apk")
         state.value = State.Downloading(release, 0)
         val conn = (URL(release.apkUrl).openConnection() as HttpURLConnection).apply {
             connectTimeout = 15_000
             readTimeout = 30_000
             instanceFollowRedirects = true
-            setRequestProperty("User-Agent", "TetherUnlock-Updater")
+            setRequestProperty("User-Agent", "DunDun-Updater")
         }
         val total = conn.contentLengthLong.takeIf { it > 0 } ?: release.size
         conn.inputStream.use { input ->

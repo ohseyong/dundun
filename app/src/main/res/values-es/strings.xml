@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Desbloquear anclaje</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Solo hay que configurarlo una vez.</string>
     <string name="subtitle_applied">Aplicado.</string>
     <string name="step1_title">Activar Opciones de desarrollador</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">Nueva versión %1$s</string>
     <string name="update_notif_body">Toca para instalar.</string>
     <string name="channel_update">Actualizaciones</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>

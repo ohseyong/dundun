@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Снятие лимита модема</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Настроить нужно один раз.</string>
     <string name="subtitle_applied">Применено.</string>
     <string name="step1_title">Включите параметры разработчика</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">Новая версия %1$s</string>
     <string name="update_notif_body">Нажмите, чтобы установить.</string>
     <string name="channel_update">Обновления</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>

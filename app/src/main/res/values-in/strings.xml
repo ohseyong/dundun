@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Buka Tethering</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Cukup atur sekali saja.</string>
     <string name="subtitle_applied">Sudah diterapkan.</string>
     <string name="step1_title">Aktifkan Opsi pengembang</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">Versi baru %1$s</string>
     <string name="update_notif_body">Ketuk untuk memasang.</string>
     <string name="channel_update">Pembaruan</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>

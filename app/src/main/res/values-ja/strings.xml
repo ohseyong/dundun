@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">テザリング解除</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">最初に一度設定するだけです。</string>
     <string name="subtitle_applied">適用済みです。</string>
     <string name="step1_title">開発者向けオプションをオン</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">新しいバージョン %1$s</string>
     <string name="update_notif_body">タップしてインストールしてください。</string>
     <string name="channel_update">アップデート</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tethering freischalten</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Nur einmal einrichten, fertig.</string>
     <string name="subtitle_applied">Angewendet.</string>
     <string name="step1_title">Entwickleroptionen einschalten</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">Neue Version %1$s</string>
     <string name="update_notif_body">Zum Installieren tippen.</string>
     <string name="channel_update">Updates</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>

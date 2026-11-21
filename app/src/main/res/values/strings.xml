@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tether Unlock</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Set it up once and you\'re done.</string>
     <string name="subtitle_applied">Applied.</string>
     <string name="step1_title">Turn on Developer options</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">New version %1$s</string>
     <string name="update_notif_body">Tap to install.</string>
     <string name="channel_update">Updates</string>
+    <string name="promo_excelkospi">Laptop connected? Check stock prices on ExcelKOSPI</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Desbloquear Roteador</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Basta configurar uma vez.</string>
     <string name="subtitle_applied">Aplicado.</string>
     <string name="step1_title">Ativar Opções do desenvolvedor</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">Nova versão %1$s</string>
     <string name="update_notif_body">Toque para instalar.</string>
     <string name="channel_update">Atualizações</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">테더링 풀기</string>
+    <string name="app_name">던던</string>
     <string name="subtitle_setup">처음 한 번만 설정하면 됩니다.</string>
     <string name="subtitle_applied">적용되어 있습니다.</string>
     <string name="step1_title">개발자 옵션 켜기</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">새 버전 %1$s</string>
     <string name="update_notif_body">눌러서 설치하세요.</string>
     <string name="channel_update">업데이트</string>
+    <string name="promo_excelkospi">노트북을 연결했다면 엑셀코스피에서 시세 보기</string>
 </resources>

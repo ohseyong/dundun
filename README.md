@@ -1,9 +1,11 @@
-# 테더링 풀기
+# 던던 (DunDun)
 
-갤럭시(One UI 7 이상)에서 통신사 테더링 제한을 앱 하나로 푸는 오픈소스 앱입니다.
+핫스팟이 안 될 때 APN을 설정해 주는 갤럭시용 오픈소스 앱입니다.
 PC, 루팅, Shizuku 없이 폰 하나로 끝납니다.
 
-[English](README.en.md) · [최신 APK 받기](https://github.com/ohseyong/tether-free/releases/latest)
+이름은 이 앱이 APN에 더하는 타입 `dun`에서 따왔습니다.
+
+[English](README.en.md) · [최신 APK 받기](https://github.com/ohseyong/dundun/releases/latest)
 
 <p>
   <img src="docs/screenshots/ko-steps.png" width="250" alt="설정 단계 화면">
@@ -36,7 +38,7 @@ One UI 7 이상 갤럭시에서는 데이터를 다 쓰고 속도 제한이 걸�
 
 ## 설치
 
-1. [Releases](https://github.com/ohseyong/tether-free/releases/latest)에서 `tether-unlock-*.apk`를 받습니다.
+1. [Releases](https://github.com/ohseyong/dundun/releases/latest)에서 `dundun-*.apk`를 받습니다.
 2. 폰에서 열어 설치합니다. "출처를 알 수 없는 앱" 허용을 물으면 허용합니다.
 
 필요한 것: 안드로이드 13 이상, Wi‑Fi 연결(인터넷이 안 되는 Wi‑Fi도 됩니다).
@@ -74,7 +76,7 @@ One UI 7 이상 갤럭시에서는 데이터를 다 쓰고 속도 제한이 걸�
 ## 주의
 
 - 테더링 제한을 우회하면 통신사 약관에 어긋날 수 있고, 회선 이용이 제한될 수 있습니다. 쓰는 사람이 책임지고 판단해야 합니다.
-- 안드로이드 15 에뮬레이터에서 페어링, 적용, 되돌리기 전체 흐름을 확인했습니다. 실제 갤럭시 기기와 통신사 회선에서는 기기와 통신사마다 결과가 다를 수 있습니다. 결과를 [Issues](https://github.com/ohseyong/tether-free/issues)에 남겨 주시면 반영하겠습니다.
+- 안드로이드 15 에뮬레이터에서 페어링, 적용, 되돌리기 전체 흐름을 확인했습니다. 실제 갤럭시 기기와 통신사 회선에서는 기기와 통신사마다 결과가 다를 수 있습니다. 결과를 [Issues](https://github.com/ohseyong/dundun/issues)에 남겨 주시면 반영하겠습니다.
 - 통신사 설정 업데이트나 초기화 뒤에는 다시 적용해야 할 수 있습니다.
 - 앱이 인터넷에 접속하는 곳은 업데이트 확인용 GitHub(api.github.com, github.com)뿐입니다. 개인 정보는 보내지 않습니다.
 
@@ -91,6 +93,10 @@ JAVA_HOME=/path/to/jdk-17-or-later ./gradlew :app:assembleRelease
 - [DunUnlocker](https://github.com/naijun0403/DunUnlocker): APN에 `dun`을 더하는 방법을 먼저 찾았습니다. 이 앱은 같은 방법을 따르되 코드는 새로 썼습니다.
 - [셔터사운드 제로](https://github.com/hoons1994/ShutterSoundZero): 설정 화면 바로 이동, 알림 코드 입력 흐름을 참고했습니다.
 - [libadb-android](https://github.com/MuntashirAkon/libadb-android), [Conscrypt](https://github.com/google/conscrypt), [Bouncy Castle](https://www.bouncycastle.org)
+
+## 만든 곳
+
+[엑셀코스피](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme)를 만든 사람이 만들었습니다.
 
 ## 라이선스
 

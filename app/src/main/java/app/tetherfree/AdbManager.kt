@@ -35,7 +35,7 @@ class AdbManager private constructor(context: Context) : AbsAdbConnectionManager
         } else {
             val generator = KeyPairGenerator.getInstance("RSA").apply { initialize(2048, SecureRandom()) }
             val pair = generator.generateKeyPair()
-            val name = X500Name("CN=TetherFree")
+            val name = X500Name("CN=DunDun")
             val now = Date()
             val until = Date(now.time + 20L * 365 * 24 * 60 * 60 * 1000)
             val serial = BigInteger.valueOf(SecureRandom().nextLong() and Long.MAX_VALUE)
@@ -50,7 +50,7 @@ class AdbManager private constructor(context: Context) : AbsAdbConnectionManager
 
     override fun getPrivateKey(): PrivateKey = key
     override fun getCertificate(): Certificate = cert
-    override fun getDeviceName(): String = "TetherFree"
+    override fun getDeviceName(): String = "DunDun"
 
     /** 셸 명령을 실행하고 출력 전체를 돌려준다. 오래 걸리면 끊는다. */
     fun exec(command: String, timeoutMs: Long = 30_000): String {

@@ -1,9 +1,11 @@
-# Tether Unlock
+# DunDun
 
-An open-source app that lifts carrier tethering limits on Samsung Galaxy phones (One UI 7 and later), all from one app.
+An open-source Galaxy app that sets up your APN when your hotspot won't work.
 No PC, no root, no Shizuku.
 
-[한국어](README.md) · [Download the latest APK](https://github.com/ohseyong/tether-free/releases/latest)
+The name comes from `dun`, the APN type this app adds.
+
+[한국어](README.md) · [Download the latest APK](https://github.com/ohseyong/dundun/releases/latest)
 
 <p>
   <img src="docs/screenshots/en-steps.png" width="250" alt="Setup steps">
@@ -36,7 +38,7 @@ This app does it in one app and four steps.
 
 ## Install
 
-1. Download `tether-unlock-*.apk` from [Releases](https://github.com/ohseyong/tether-free/releases/latest).
+1. Download `dundun-*.apk` from [Releases](https://github.com/ohseyong/dundun/releases/latest).
 2. Open it on your phone to install. If asked, allow installing unknown apps.
 
 Requires Android 13 or later and a Wi-Fi connection (Wi-Fi without internet works too).
@@ -74,7 +76,7 @@ Restore uses the record saved when applying (original type and original default 
 ## Notes
 
 - Getting around tethering limits may break your carrier's terms, and your line could be restricted. Use it at your own judgment.
-- The full flow (pairing, apply, restore) was tested on an Android 15 emulator. Results on real Galaxy phones and carrier lines can differ. Please share yours in [Issues](https://github.com/ohseyong/tether-free/issues).
+- The full flow (pairing, apply, restore) was tested on an Android 15 emulator. Results on real Galaxy phones and carrier lines can differ. Please share yours in [Issues](https://github.com/ohseyong/dundun/issues).
 - You may need to apply again after a carrier settings update or a reset.
 - The only place the app connects to on the internet is GitHub (api.github.com, github.com), for update checks. It sends no personal data.
 
@@ -91,6 +93,10 @@ The APK is at `app/build/outputs/apk/release/app-release.apk`. To sign with your
 - [DunUnlocker](https://github.com/naijun0403/DunUnlocker): found the way to add `dun` to the APN. This app follows the same approach with new code.
 - [ShutterSoundZero](https://github.com/hoons1994/ShutterSoundZero): the settings shortcuts and notification code entry flow.
 - [libadb-android](https://github.com/MuntashirAkon/libadb-android), [Conscrypt](https://github.com/google/conscrypt), [Bouncy Castle](https://www.bouncycastle.org)
+
+## Made by
+
+The maker of [ExcelKOSPI](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme).
 
 ## License
 

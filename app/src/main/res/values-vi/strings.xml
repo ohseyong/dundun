@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mở khóa chia sẻ mạng</string>
+    <string name="app_name">DunDun</string>
     <string name="subtitle_setup">Chỉ cần cài đặt một lần.</string>
     <string name="subtitle_applied">Đã áp dụng.</string>
     <string name="step1_title">Bật Tùy chọn nhà phát triển</string>
@@ -105,4 +105,5 @@
     <string name="update_notif_title">Phiên bản mới %1$s</string>
     <string name="update_notif_body">Chạm để cài đặt.</string>
     <string name="channel_update">Cập nhật</string>
+    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
 </resources>
