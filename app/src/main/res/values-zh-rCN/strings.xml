@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">无法为 APN 添加 dun</string>
     <string name="broker_preferred_failed">无法将新 APN 设为默认</string>
     <string name="broker_no_restore">没有可恢复的记录</string>
+    <string name="live_applied_title">当前已应用</string>
+    <string name="live_applied_body">移动数据连接中已包含 dun。</string>
+    <string name="live_off_title">未应用</string>
+    <string name="live_off_body">请按下面的步骤设置。</string>
+    <string name="live_off_body_record">之前已应用，但现在已失效，可能是运营商设置有变。请重新应用。</string>
+    <string name="live_unknown_title">现在无法确认</string>
+    <string name="live_unknown_body">打开移动数据后即可确认。</string>
+    <string name="live_unknown_body_record">上次记录为已应用。打开移动数据后即可确认。</string>
+    <string name="detail_no_record">没有用本应用应用过的记录，可能是用其他方式设置的。</string>
 </resources>

@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">Tidak bisa menambahkan dun ke APN</string>
     <string name="broker_preferred_failed">Tidak bisa menjadikan APN baru sebagai default</string>
     <string name="broker_no_restore">Tidak ada yang perlu dikembalikan</string>
+    <string name="live_applied_title">Sedang diterapkan</string>
+    <string name="live_applied_body">Koneksi data seluler Anda sudah berisi dun.</string>
+    <string name="live_off_title">Belum diterapkan</string>
+    <string name="live_off_body">Ikuti langkah di bawah.</string>
+    <string name="live_off_body_record">Sempat diterapkan, tapi sekarang tidak aktif. Mungkin operator memperbarui setelan. Terapkan lagi.</string>
+    <string name="live_unknown_title">Belum bisa dicek sekarang</string>
+    <string name="live_unknown_body">Nyalakan data seluler untuk mengecek.</string>
+    <string name="live_unknown_body_record">Catatan terakhir: sudah diterapkan. Nyalakan data seluler untuk mengecek.</string>
+    <string name="detail_no_record">Aplikasi ini tidak punya catatan pernah menerapkannya. Mungkin diatur dengan cara lain.</string>
 </resources>

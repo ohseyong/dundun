@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">Не удалось добавить dun к APN</string>
     <string name="broker_preferred_failed">Не удалось выбрать новый APN по умолчанию</string>
     <string name="broker_no_restore">Нечего возвращать</string>
+    <string name="live_applied_title">Сейчас применено</string>
+    <string name="live_applied_body">В подключении мобильных данных есть dun.</string>
+    <string name="live_off_title">Не применено</string>
+    <string name="live_off_body">Выполните шаги ниже.</string>
+    <string name="live_off_body_record">Было применено, но сейчас не действует. Возможно, оператор обновил настройки. Примените снова.</string>
+    <string name="live_unknown_title">Сейчас нельзя проверить</string>
+    <string name="live_unknown_body">Включите мобильные данные, чтобы проверить.</string>
+    <string name="live_unknown_body_record">По последней записи — применено. Включите мобильные данные, чтобы проверить.</string>
+    <string name="detail_no_record">У этого приложения нет записи о применении. Похоже, это настроено другим способом.</string>
 </resources>

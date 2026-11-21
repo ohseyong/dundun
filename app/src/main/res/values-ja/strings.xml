@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">APNにdunを追加できませんでした</string>
     <string name="broker_preferred_failed">新しいAPNをデフォルトにできませんでした</string>
     <string name="broker_no_restore">元に戻す記録がありません</string>
+    <string name="live_applied_title">現在適用されています</string>
+    <string name="live_applied_body">モバイルデータ接続にdunが入っています。</string>
+    <string name="live_off_title">未適用</string>
+    <string name="live_off_body">下の手順で設定してください。</string>
+    <string name="live_off_body_record">適用済みでしたが、今は解除されています。通信会社の設定が変わった可能性があります。もう一度適用してください。</string>
+    <string name="live_unknown_title">今は確認できません</string>
+    <string name="live_unknown_body">モバイルデータをオンにすると確認できます。</string>
+    <string name="live_unknown_body_record">最後の記録は適用済みです。モバイルデータをオンにすると確認できます。</string>
+    <string name="detail_no_record">このアプリで適用した記録はありません。別の方法で適用されたようです。</string>
 </resources>

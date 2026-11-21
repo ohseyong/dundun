@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">dun konnte nicht zum APN hinzugefügt werden</string>
     <string name="broker_preferred_failed">Neuer APN konnte nicht als Standard gesetzt werden</string>
     <string name="broker_no_restore">Nichts wiederherzustellen</string>
+    <string name="live_applied_title">Aktuell angewendet</string>
+    <string name="live_applied_body">Deine mobile Datenverbindung enthält dun.</string>
+    <string name="live_off_title">Nicht angewendet</string>
+    <string name="live_off_body">Folge den Schritten unten.</string>
+    <string name="live_off_body_record">War angewendet, ist jetzt aber aus. Ein Anbieter-Update hat es vielleicht zurückgesetzt. Erneut anwenden.</string>
+    <string name="live_unknown_title">Gerade nicht prüfbar</string>
+    <string name="live_unknown_body">Mobile Daten einschalten, um es zu prüfen.</string>
+    <string name="live_unknown_body_record">Letzter Stand: angewendet. Mobile Daten einschalten, um es zu prüfen.</string>
+    <string name="detail_no_record">Diese App hat keinen Eintrag, dass sie es angewendet hat. Es wurde wohl anders eingerichtet.</string>
 </resources>

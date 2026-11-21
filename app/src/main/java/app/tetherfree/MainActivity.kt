@@ -44,6 +44,11 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -130,7 +135,32 @@ private fun Home(tick: Int) {
     val wdOn = Sys.wirelessDebuggingOn(context)
     val wifi = Sys.wifiConnected(context)
     val carrier = Sys.carrierName(context)
-    val applied = store.applied && !(work is Work.Done && (work as Work.Done).restored)
+    var netTick by remember { mutableIntStateOf(0) }
+    DisposableEffect(Unit) {
+        val cm = context.getSystemService(ConnectivityManager::class.java)
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) { netTick++ }
+            override fun onLost(network: Network) { netTick++ }
+        }
+        val request = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build()
+        runCatching { cm?.registerNetworkCallback(request, callback) }
+        onDispose { runCatching { cm?.unregisterNetworkCallback(callback) } }
+    }
+    // 연결 변화 알림을 놓치는 경우를 대비해 화면이 떠 있는 동안 3초마다 다시 본다.
+    LaunchedEffect(Unit) {
+        while (true) {
+            kotlinx.coroutines.delay(3_000)
+            netTick++
+        }
+    }
+    val live = remember(netTick, tick) { Sys.liveState(context) }
+    val recorded = store.applied && !(work is Work.Done && (work as Work.Done).restored)
+    // 실제 상태를 알 수 있으면 그걸 따르고, 모르면 기록을 따른다.
+    val applied = when (live) {
+        Sys.Live.Applied -> true
+        Sys.Live.NotApplied -> false
+        Sys.Live.Unknown -> recorded
+    }
     val paired = store.paired
 
     var notice by remember { mutableStateOf<Int?>(null) }
@@ -173,28 +203,26 @@ private fun Home(tick: Int) {
             .padding(horizontal = 20.dp, vertical = 24.dp),
     ) {
         Text(stringResource(R.string.app_name), fontSize = 26.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
-        Spacer(Modifier.height(6.dp))
-        Text(
-            stringResource(if (applied) R.string.subtitle_applied else R.string.subtitle_setup),
-            fontSize = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(16.dp))
+        LiveStatus(live, recorded)
+        Spacer(Modifier.height(16.dp))
 
         if (applied) {
-            DoneCard(result = store.result, appliedAt = store.appliedAt, carrier = carrier, onHotspot = { Sys.openHotspot(context) })
+            DoneCard(result = if (recorded) store.result else emptyMap(), appliedAt = store.appliedAt, carrier = carrier, onHotspot = { Sys.openHotspot(context) })
         } else {
+            // 다시 적용할 때도 무선 디버깅은 켜져 있어야 하니, 앞 단계가 끝나야 다음 단계가 열린다.
             val s1 = if (devOn) StepState.Done else StepState.Current
             val s2 = when {
                 !devOn -> StepState.Waiting
-                wdOn == true || paired -> StepState.Done
+                wdOn != false -> StepState.Done
                 else -> StepState.Current
             }
             val s3 = when {
                 paired -> StepState.Done
-                s2 == StepState.Done || (devOn && wdOn == null) -> StepState.Current
+                s2 == StepState.Done -> StepState.Current
                 else -> StepState.Waiting
             }
-            val s4 = if (paired) StepState.Current else StepState.Waiting
+            val s4 = if (paired && s2 == StepState.Done) StepState.Current else StepState.Waiting
 
             Card {
                 Step(1, stringResource(R.string.step1_title), stringResource(R.string.step1_body), s1) {
@@ -262,6 +290,40 @@ private fun Home(tick: Int) {
     }
 }
 
+/** 맨 위 상태 줄. 지금 실제로 적용돼 있는지 보여 준다. */
+@Composable
+private fun LiveStatus(live: Sys.Live, recorded: Boolean) {
+    val scheme = MaterialTheme.colorScheme
+    val (title, body) = when (live) {
+        Sys.Live.Applied -> R.string.live_applied_title to R.string.live_applied_body
+        Sys.Live.NotApplied -> R.string.live_off_title to (if (recorded) R.string.live_off_body_record else R.string.live_off_body)
+        Sys.Live.Unknown -> R.string.live_unknown_title to (if (recorded) R.string.live_unknown_body_record else R.string.live_unknown_body)
+    }
+    val color = when (live) {
+        Sys.Live.Applied -> scheme.primary
+        Sys.Live.NotApplied -> if (recorded) scheme.error else scheme.onSurfaceVariant
+        Sys.Live.Unknown -> scheme.onSurfaceVariant
+    }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(scheme.surface, RoundedCornerShape(16.dp))
+            .border(1.dp, scheme.outlineVariant, RoundedCornerShape(16.dp))
+            .padding(horizontal = 20.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(Modifier.size(28.dp), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(12.dp).background(color, CircleShape))
+        }
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(stringResource(title), fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = if (live == Sys.Live.Unknown) scheme.onSurface else color)
+            Spacer(Modifier.height(2.dp))
+            Text(stringResource(body), fontSize = 14.sp, lineHeight = 20.sp, color = scheme.onSurfaceVariant)
+        }
+    }
+}
+
 @Composable
 private fun DoneCard(result: Map<String, String>, appliedAt: Long, carrier: String, onHotspot: () -> Unit) {
     val scheme = MaterialTheme.colorScheme
@@ -281,6 +343,13 @@ private fun DoneCard(result: Map<String, String>, appliedAt: Long, carrier: Stri
             Primary(stringResource(R.string.done_hotspot), onHotspot)
         }
         HorizontalDivider(color = scheme.outlineVariant)
+        if (result.isEmpty()) {
+            Text(
+                stringResource(R.string.detail_no_record), fontSize = 14.sp, lineHeight = 20.sp,
+                color = scheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
+            )
+            return@Card
+        }
         Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(stringResource(R.string.detail_header), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurfaceVariant)
             val sim = listOfNotNull(

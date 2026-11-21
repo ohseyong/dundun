@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">無法為 APN 加上 dun</string>
     <string name="broker_preferred_failed">無法將新 APN 設為預設</string>
     <string name="broker_no_restore">沒有可還原的紀錄</string>
+    <string name="live_applied_title">目前已套用</string>
+    <string name="live_applied_body">行動數據連線中已包含 dun。</string>
+    <string name="live_off_title">未套用</string>
+    <string name="live_off_body">請依下方步驟設定。</string>
+    <string name="live_off_body_record">之前已套用，但現在已失效，可能是電信業者設定有變。請重新套用。</string>
+    <string name="live_unknown_title">現在無法確認</string>
+    <string name="live_unknown_body">開啟行動數據後即可確認。</string>
+    <string name="live_unknown_body_record">上次紀錄為已套用。開啟行動數據後即可確認。</string>
+    <string name="detail_no_record">沒有用本 App 套用的紀錄，可能是用其他方式設定的。</string>
 </resources>

@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">Impossible d’ajouter dun à l’APN</string>
     <string name="broker_preferred_failed">Impossible de définir le nouvel APN par défaut</string>
     <string name="broker_no_restore">Rien à rétablir</string>
+    <string name="live_applied_title">Appliqué actuellement</string>
+    <string name="live_applied_body">Votre connexion de données mobiles contient dun.</string>
+    <string name="live_off_title">Non appliqué</string>
+    <string name="live_off_body">Suivez les étapes ci-dessous.</string>
+    <string name="live_off_body_record">C’était appliqué, mais ce n’est plus actif. Une mise à jour de l’opérateur l’a peut-être annulé. Appliquez à nouveau.</string>
+    <string name="live_unknown_title">Vérification impossible pour l’instant</string>
+    <string name="live_unknown_body">Activez les données mobiles pour vérifier.</string>
+    <string name="live_unknown_body_record">Dernier état enregistré : appliqué. Activez les données mobiles pour vérifier.</string>
+    <string name="detail_no_record">Cette app n’a aucune trace de l’avoir appliqué. Cela a peut-être été réglé autrement.</string>
 </resources>

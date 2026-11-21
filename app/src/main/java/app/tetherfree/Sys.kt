@@ -30,6 +30,27 @@ object Sys {
         return cm.allNetworks.any { cm.getNetworkCapabilities(it)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true }
     }
 
+    /** 지금 실제 상태. 모바일 데이터 연결에 DUN 기능이 붙어 있는지로 본다. */
+    enum class Live { Applied, NotApplied, Unknown }
+
+    /**
+     * APN 타입에 dun 이 들어가면 그 APN으로 만든 모바일 데이터 연결에 DUN 기능이 붙는다.
+     * 일반 앱도 읽을 수 있어서 셸 없이 지금 상태를 알 수 있다. 모바일 데이터가 꺼져 있으면 알 수 없다.
+     */
+    @Suppress("DEPRECATION")
+    fun liveState(context: Context): Live {
+        val cm = context.getSystemService(ConnectivityManager::class.java) ?: return Live.Unknown
+        val cellular = cm.allNetworks.mapNotNull { cm.getNetworkCapabilities(it) }.filter {
+            it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) &&
+                it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        }
+        return when {
+            cellular.isEmpty() -> Live.Unknown
+            cellular.any { it.hasCapability(NetworkCapabilities.NET_CAPABILITY_DUN) } -> Live.Applied
+            else -> Live.NotApplied
+        }
+    }
+
     fun dataSubId(): Int = SubscriptionManager.getDefaultDataSubscriptionId()
 
     fun carrierName(context: Context): String {

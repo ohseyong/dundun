@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">Couldn\'t add dun to the APN</string>
     <string name="broker_preferred_failed">Couldn\'t set the new APN as default</string>
     <string name="broker_no_restore">Nothing to restore</string>
+    <string name="live_applied_title">Applied now</string>
+    <string name="live_applied_body">Your mobile data connection has dun.</string>
+    <string name="live_off_title">Not applied</string>
+    <string name="live_off_body">Follow the steps below.</string>
+    <string name="live_off_body_record">It was applied but is off now. A carrier update may have reset it. Apply again.</string>
+    <string name="live_unknown_title">Can\'t check right now</string>
+    <string name="live_unknown_body">Turn on mobile data to check.</string>
+    <string name="live_unknown_body_record">Last record: applied. Turn on mobile data to check.</string>
+    <string name="detail_no_record">This app has no record of applying it. It may have been set another way.</string>
 </resources>

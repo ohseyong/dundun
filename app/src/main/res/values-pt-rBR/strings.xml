@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">Não foi possível adicionar dun ao APN</string>
     <string name="broker_preferred_failed">Não foi possível definir o novo APN como padrão</string>
     <string name="broker_no_restore">Nada para restaurar</string>
+    <string name="live_applied_title">Aplicado agora</string>
+    <string name="live_applied_body">Sua conexão de dados móveis tem dun.</string>
+    <string name="live_off_title">Não aplicado</string>
+    <string name="live_off_body">Siga os passos abaixo.</string>
+    <string name="live_off_body_record">Foi aplicado, mas agora não está ativo. Uma atualização da operadora pode ter desfeito. Aplique de novo.</string>
+    <string name="live_unknown_title">Não dá para verificar agora</string>
+    <string name="live_unknown_body">Ative os dados móveis para verificar.</string>
+    <string name="live_unknown_body_record">Último registro: aplicado. Ative os dados móveis para verificar.</string>
+    <string name="detail_no_record">Este app não tem registro de ter aplicado. Pode ter sido configurado de outro jeito.</string>
 </resources>

@@ -80,4 +80,13 @@
     <string name="broker_dun_failed">Không thêm được dun vào APN</string>
     <string name="broker_preferred_failed">Không đặt được APN mới làm mặc định</string>
     <string name="broker_no_restore">Không có gì để khôi phục</string>
+    <string name="live_applied_title">Đang được áp dụng</string>
+    <string name="live_applied_body">Kết nối dữ liệu di động đã có dun.</string>
+    <string name="live_off_title">Chưa áp dụng</string>
+    <string name="live_off_body">Hãy làm theo các bước bên dưới.</string>
+    <string name="live_off_body_record">Đã từng áp dụng nhưng giờ không còn. Có thể nhà mạng đã cập nhật cài đặt. Hãy áp dụng lại.</string>
+    <string name="live_unknown_title">Hiện chưa kiểm tra được</string>
+    <string name="live_unknown_body">Bật dữ liệu di động để kiểm tra.</string>
+    <string name="live_unknown_body_record">Ghi nhận gần nhất: đã áp dụng. Bật dữ liệu di động để kiểm tra.</string>
+    <string name="detail_no_record">Ứng dụng này không có ghi nhận đã áp dụng. Có thể đã được cài bằng cách khác.</string>
 </resources>

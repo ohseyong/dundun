@@ -25,6 +25,7 @@ This app does it in one app and four steps.
 - **Jumps to the right settings screen**: opens Build number and Wireless debugging with one tap, and checks on its own when each is on.
 - **Code entry from a notification**: keep the pairing dialog open and type the 6-digit code into the notification at the top. The notification stays up until you enter the code.
 - **Works with any carrier**: copies the APN you use now and only adds `dun`. No need to pick a carrier.
+- **Shows the live state**: the top of the screen says whether it is actually applied right now, and tells you right away if a carrier update undid it.
 - **Shows what changed**: which SIM, which APN, and the type before and after.
 - **Cleans up**: turns wireless debugging off when done.
 - **Restore**: one tap puts the APN back the way it was.
@@ -49,6 +50,16 @@ You only do this once.
 4. **Apply**: the app applies it and turns wireless debugging off. When you see "Applied", turn on your hotspot.
 
 To apply again or restore, just turn on wireless debugging and tap the button in the app. You don't need a new code.
+
+## FAQ
+
+**Does hotspot use still eat into my tethering/sharing allowance?**
+Probably not. Hotspot traffic goes out through the same APN as normal data instead of a tethering APN, so to the carrier it looks like normal data.
+This isn't guaranteed. If your carrier detects tethering another way, it may still be counted as tethering or blocked. It also uses your normal data instead, so it isn't free.
+The first time, use a little data over the hotspot and check in your carrier's app which allowance went down.
+
+**How do I know if it's applied right now?**
+It's shown at the top of the app. When the APN has `dun`, the mobile data connection gets the DUN capability, and the app reads that directly. With mobile data off it can't check, so it shows the last record.
 
 ## How it works
 
