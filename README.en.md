@@ -36,6 +36,39 @@ Download `dundun-*.apk` from [Releases](https://github.com/ohseyong/dundun/relea
 
 You only do this once. To apply again or undo, turn on wireless debugging and tap the button. You won't need a new code.
 
+<details>
+<summary>Step-by-step screenshots (11)</summary>
+
+Taken on an emulator (stock Android 15) set to Korean. Galaxy menus look a little different, but the order is the same. The blue box is where to tap.
+
+**1. Turn on Developer options**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-01.webp" width="220" alt="Open the app and tap [Open About phone]."><br>Open the app and tap [Open About phone].</td><td width="33%" valign="top"><img src="docs/tutorial/tut-02.webp" width="220" alt="Tap Build number 7 times. On Galaxy it is inside Software information."><br>Tap Build number 7 times. On Galaxy it is inside Software information.</td></tr>
+</table>
+
+**2. Turn on Wireless debugging**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-03.webp" width="220" alt="Back in the app, tap [Open Wireless debugging]."><br>Back in the app, tap [Open Wireless debugging].</td><td width="33%" valign="top"><img src="docs/tutorial/tut-04.webp" width="220" alt="In Developer options, open Wireless debugging."><br>In Developer options, open Wireless debugging.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-05.webp" width="220" alt="Turn on Use wireless debugging."><br>Turn on Use wireless debugging.</td></tr>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-06.webp" width="220" alt="Tap Allow. On Wi-Fi you use a lot, tick Always allow."><br>Tap Allow. On Wi-Fi you use a lot, tick Always allow.</td></tr>
+</table>
+
+**3. Enter the code**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-07.webp" width="220" alt="Back in the app, tap [Start code entry]."><br>Back in the app, tap [Start code entry].</td><td width="33%" valign="top"><img src="docs/tutorial/tut-08.webp" width="220" alt="When the notification shows up, tap Pair device with pairing code."><br>When the notification shows up, tap Pair device with pairing code.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-09.webp" width="220" alt="When the 6 digits appear, tap [Enter code] in the notification. Leave the pairing dialog open."><br>When the 6 digits appear, tap [Enter code] in the notification. Leave the pairing dialog open.</td></tr>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-10.webp" width="220" alt="Type the digits and send."><br>Type the digits and send.</td></tr>
+</table>
+
+**4. Done**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-11.webp" width="220" alt="When you see Applied, you are done. Turn on the hotspot from [Open hotspot settings]."><br>When you see Applied, you are done. Turn on the hotspot from [Open hotspot settings].</td></tr>
+</table>
+
+</details>
+
 ## Two SIMs
 
 Both SIMs get `dun` and both use that APN as default, so switching your data SIM doesn't undo anything. Restore also works per SIM and leaves the other SIM alone.

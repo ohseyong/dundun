@@ -36,6 +36,39 @@
 
 처음 한 번만 하면 돼요. 나중에 다시 적용하거나 되돌릴 때는 무선 디버깅만 켜고 버튼을 누르면 되고, 코드는 다시 안 넣어도 돼요.
 
+<details>
+<summary>화면으로 보기 (스크린샷 11장)</summary>
+
+에뮬레이터(순정 안드로이드 15)에서 찍었어요. 갤럭시는 메뉴 모양이 조금 달라도 순서는 같아요. 파란 상자가 누를 곳이에요.
+
+**1. 개발자 옵션 켜기**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-01.webp" width="220" alt="앱을 열고 [휴대전화 정보 열기]를 눌러요."><br>앱을 열고 [휴대전화 정보 열기]를 눌러요.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-02.webp" width="220" alt="빌드 번호를 7번 연달아 눌러요. 갤럭시는 소프트웨어 정보 안에 빌드번호가 있어요."><br>빌드 번호를 7번 연달아 눌러요. 갤럭시는 소프트웨어 정보 안에 빌드번호가 있어요.</td></tr>
+</table>
+
+**2. 무선 디버깅 켜기**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-03.webp" width="220" alt="앱으로 돌아와서 [무선 디버깅 열기]를 눌러요."><br>앱으로 돌아와서 [무선 디버깅 열기]를 눌러요.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-04.webp" width="220" alt="개발자 옵션에서 무선 디버깅 줄을 눌러 들어가요."><br>개발자 옵션에서 무선 디버깅 줄을 눌러 들어가요.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-05.webp" width="220" alt="무선 디버깅 사용을 켜요."><br>무선 디버깅 사용을 켜요.</td></tr>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-06.webp" width="220" alt="허용을 눌러요. 자주 쓰는 와이파이면 항상 허용에 체크해 두세요."><br>허용을 눌러요. 자주 쓰는 와이파이면 항상 허용에 체크해 두세요.</td></tr>
+</table>
+
+**3. 코드 넣기**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-07.webp" width="220" alt="앱으로 돌아와서 [코드 입력 시작]을 눌러요."><br>앱으로 돌아와서 [코드 입력 시작]을 눌러요.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-08.webp" width="220" alt="위에 알림이 뜨면 페어링 코드로 기기 페어링을 눌러요."><br>위에 알림이 뜨면 페어링 코드로 기기 페어링을 눌러요.</td><td width="33%" valign="top"><img src="docs/tutorial/tut-09.webp" width="220" alt="6자리 숫자가 나오면 알림의 [코드 입력]을 눌러요. 페어링 창은 그대로 두세요."><br>6자리 숫자가 나오면 알림의 [코드 입력]을 눌러요. 페어링 창은 그대로 두세요.</td></tr>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-10.webp" width="220" alt="숫자를 넣고 보내기를 눌러요."><br>숫자를 넣고 보내기를 눌러요.</td></tr>
+</table>
+
+**4. 끝**
+
+<table>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-11.webp" width="220" alt="적용 완료가 뜨면 끝이에요. [핫스팟 설정 열기]에서 핫스팟을 켜요."><br>적용 완료가 뜨면 끝이에요. [핫스팟 설정 열기]에서 핫스팟을 켜요.</td></tr>
+</table>
+
+</details>
+
 ## 유심이 두 개라면
 
 유심 두 개 모두에 `dun`을 넣고, 둘 다 그 APN을 기본으로 골라 둬요. 데이터 유심을 바꿔도 다시 할 필요가 없어요. 되돌리기도 유심마다 따로 해서 다른 유심 설정은 건드리지 않아요.
