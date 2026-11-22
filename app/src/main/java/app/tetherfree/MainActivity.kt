@@ -439,11 +439,7 @@ private fun DoneCard(sims: List<Map<String, String>>, appliedAt: Long, carrier: 
             if (LocalConfiguration.current.locales[0].language == "ko") {
                 val context = LocalContext.current
                 Spacer(Modifier.height(14.dp))
-                Text(
-                    stringResource(R.string.promo_excelkospi) + " →",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = scheme.primary,
+                Column(
                     modifier = Modifier
                         .clickable {
                             runCatching {
@@ -451,7 +447,19 @@ private fun DoneCard(sims: List<Map<String, String>>, appliedAt: Long, carrier: 
                             }
                         }
                         .padding(vertical = 6.dp),
-                )
+                ) {
+                    Text(
+                        stringResource(R.string.promo_question),
+                        fontSize = 13.sp,
+                        color = scheme.onSurfaceVariant,
+                    )
+                    Text(
+                        stringResource(R.string.promo_excelkospi) + " →",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = scheme.primary,
+                    )
+                }
             }
         }
         HorizontalDivider(color = scheme.outlineVariant)

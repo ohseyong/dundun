@@ -105,7 +105,8 @@
     <string name="update_notif_title">새 버전 %1$s</string>
     <string name="update_notif_body">눌러서 설치하세요.</string>
     <string name="channel_update">업데이트</string>
-    <string name="promo_excelkospi">노트북을 연결했다면 엑셀코스피에서 시세 보기</string>
+    <string name="promo_question">핫스팟을 연결했나요?</string>
+    <string name="promo_excelkospi">회사에서 엑셀코스피로 몰래 주식시세 보기</string>
     <string name="data_note">핫스팟은 공유데이터 대신 일반 데이터를 씁니다. 데이터가 늘어나지는 않습니다.</string>
     <string name="detail_sim_failed">이 유심에는 적용하지 못했습니다: %1$s</string>
     <string name="notif_done_multi">유심 %1$s개에 dun을 넣었습니다.</string>

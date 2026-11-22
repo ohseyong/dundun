@@ -105,7 +105,8 @@
     <string name="update_notif_title">新版本 %1$s</string>
     <string name="update_notif_body">輕觸即可安裝。</string>
     <string name="channel_update">更新</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">熱點會改用一般數據量，而不是分享（熱點）數據量。數據量不會因此增加。</string>
     <string name="detail_sim_failed">這張 SIM 卡沒能套用：%1$s</string>
     <string name="notif_done_multi">已為 %1$s 張 SIM 卡加上 dun。</string>

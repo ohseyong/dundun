@@ -105,7 +105,8 @@
     <string name="update_notif_title">新版本 %1$s</string>
     <string name="update_notif_body">点按即可安装。</string>
     <string name="channel_update">更新</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">热点会改用普通流量，而不是共享（热点）流量。流量不会因此增加。</string>
     <string name="detail_sim_failed">这张 SIM 卡没能应用：%1$s</string>
     <string name="notif_done_multi">已给 %1$s 张 SIM 卡加上 dun。</string>

@@ -105,7 +105,8 @@
     <string name="update_notif_title">Nova versão %1$s</string>
     <string name="update_notif_body">Toque para instalar.</string>
     <string name="channel_update">Atualizações</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">O roteador usa seus dados normais em vez da franquia de compartilhamento. Você não ganha mais dados.</string>
     <string name="detail_sim_failed">Não deu para aplicar neste chip: %1$s</string>
     <string name="notif_done_multi">dun adicionado a %1$s chips.</string>

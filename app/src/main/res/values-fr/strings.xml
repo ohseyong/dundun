@@ -105,7 +105,8 @@
     <string name="update_notif_title">Nouvelle version %1$s</string>
     <string name="update_notif_body">Appuyez pour installer.</string>
     <string name="channel_update">Mises à jour</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">Le partage de connexion utilise vos données normales au lieu du forfait partage. Vous n’obtenez pas plus de données.</string>
     <string name="detail_sim_failed">Impossible d’appliquer à cette SIM : %1$s</string>
     <string name="notif_done_multi">dun ajouté à %1$s SIM.</string>

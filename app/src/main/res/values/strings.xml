@@ -105,7 +105,8 @@
     <string name="update_notif_title">New version %1$s</string>
     <string name="update_notif_body">Tap to install.</string>
     <string name="channel_update">Updates</string>
-    <string name="promo_excelkospi">Laptop connected? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">Hotspot traffic comes out of your regular data instead of your tethering allowance. You don\'t get more data.</string>
     <string name="detail_sim_failed">Couldn\'t apply to this SIM: %1$s</string>
     <string name="notif_done_multi">Added dun to %1$s SIMs.</string>

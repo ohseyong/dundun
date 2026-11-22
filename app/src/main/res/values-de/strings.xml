@@ -105,7 +105,8 @@
     <string name="update_notif_title">Neue Version %1$s</string>
     <string name="update_notif_body">Zum Installieren tippen.</string>
     <string name="channel_update">Updates</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">Der Hotspot nutzt dein normales Datenvolumen statt des Tethering-Kontingents. Du bekommst nicht mehr Daten.</string>
     <string name="detail_sim_failed">Bei dieser SIM ging es nicht: %1$s</string>
     <string name="notif_done_multi">dun bei %1$s SIMs hinzugefügt.</string>

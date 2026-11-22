@@ -105,7 +105,8 @@
     <string name="update_notif_title">Versi baru %1$s</string>
     <string name="update_notif_body">Ketuk untuk memasang.</string>
     <string name="channel_update">Pembaruan</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">Hotspot memakai kuota data biasa, bukan kuota berbagi. Kuota Anda tidak bertambah.</string>
     <string name="detail_sim_failed">Tidak bisa diterapkan ke SIM ini: %1$s</string>
     <string name="notif_done_multi">dun ditambahkan ke %1$s SIM.</string>

@@ -105,7 +105,8 @@
     <string name="update_notif_title">Phiên bản mới %1$s</string>
     <string name="update_notif_body">Chạm để cài đặt.</string>
     <string name="channel_update">Cập nhật</string>
-    <string name="promo_excelkospi">Connected a laptop to your hotspot? Check stock prices on ExcelKOSPI</string>
+    <string name="promo_question">Hotspot connected?</string>
+    <string name="promo_excelkospi">Check stock prices quietly at work on ExcelKOSPI</string>
     <string name="data_note">Điểm truy cập dùng dữ liệu thường thay cho dung lượng chia sẻ. Dữ liệu không tăng thêm.</string>
     <string name="detail_sim_failed">Không áp dụng được cho SIM này: %1$s</string>
     <string name="notif_done_multi">Đã thêm dun cho %1$s SIM.</string>
