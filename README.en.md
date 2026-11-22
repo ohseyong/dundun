@@ -2,8 +2,6 @@
 
 An Android app for when your laptop can't use your hotspot because the tethering allowance ran out. It adds `dun` to your APN so the hotspot goes out on your remaining regular data. It all happens on the phone; you don't need a PC or root.
 
-You don't get more data. Hotspot use comes out of your regular data, and once that runs out your plan's slow speed applies.
-
 The name comes from `dun`, the APN type it adds.
 
 [한국어](README.md) · [Download the latest APK](https://github.com/ohseyong/dundun/releases/latest) · [Website](https://seyong.me/dundun/en/)
@@ -163,7 +161,7 @@ Services run by the person who made DunDun (in Korean).
 - 📶 [Korean MVNO plan comparison](https://excelkospi.ai/mvno?utm_source=dundun&utm_medium=github&utm_campaign=readme_en_mvno)
   If you keep running out of data, a different plan might be better. It collects official MVNO plans every 6 hours so you can compare price, data, network and perks, including the price after discounts end.
 - 📊 [ExcelKOSPI](https://excelkospi.ai/?utm_source=dundun&utm_medium=github&utm_campaign=readme_en_promo)
-  Korean stock prices in a sheet that looks like Excel, so you can check the market at work. Connected a laptop to your hotspot? Give it a try.
+  Korean stock prices in a sheet that looks like Excel, so you can check the market at work.
 
 ## License
 
