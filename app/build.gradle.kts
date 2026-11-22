@@ -15,8 +15,8 @@ android {
         // am instrument --no-restart 는 안드로이드 13부터 있다.
         minSdk = 33
         targetSdk = 36
-        versionCode = 10
-        versionName = "1.5.1"
+        versionCode = 11
+        versionName = "1.5.2"
         // 삼성 갤럭시는 모두 arm64 다.
         ndk { abiFilters += "arm64-v8a" }
     }
@@ -63,6 +63,8 @@ kotlin {
 }
 
 dependencies {
+    testImplementation("junit:junit:4.13.2")
+
     implementation("com.github.MuntashirAkon:libadb-android:3.1.1")
     implementation("org.conscrypt:conscrypt-android:2.5.3")
     implementation("org.bouncycastle:bcpkix-jdk15to18:1.81")

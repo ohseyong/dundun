@@ -1,6 +1,6 @@
 # DunDun
 
-An Android app for when your laptop can't use your hotspot because the tethering allowance ran out. It adds `dun` to your APN so the hotspot goes out on your remaining regular data. It all happens on the phone; you don't need a PC or root.
+DunDun adjusts the mobile data APN used for Android tethering. Hotspot access and data usage depend on your device, carrier, and plan. Setup runs on the phone without a PC or root.
 
 The name comes from `dun`, the APN type it adds.
 
@@ -9,8 +9,10 @@ The name comes from `dun`, the APN type it adds.
 <p>
   <img src="docs/screenshots/en-steps.png" width="250" alt="Setup steps">
   <img src="docs/screenshots/en-code.png" width="250" alt="Code notification over the pairing dialog">
-  <img src="docs/screenshots/en-done.png" width="250" alt="Applied, with APN details">
+  <img src="docs/screenshots/en-done.png" width="250" alt="Example APN result by SIM">
 </p>
+
+The per-SIM result screenshot uses sample data.
 
 ## When to use it
 
@@ -30,7 +32,7 @@ Download `dundun-*.apk` from [Releases](https://github.com/ohseyong/dundun/relea
 1. Turn on Developer options. Tap [Open About phone] in the app, then tap Build number 7 times.
 2. Turn on Wireless debugging. Tap [Open Wireless debugging], switch it on, and tap Allow if asked. You need Wi-Fi, but it doesn't need internet.
 3. Tap [Start code entry] and open "Pair device with pairing code". Type the 6 digits into the notification at the top.
-4. The app changes the APN and turns wireless debugging off. When you see "Applied", turn on your hotspot.
+4. Review the APN result for each SIM. Check internet access on a device connected to your hotspot. The app tells you if wireless debugging could not be confirmed off.
 
 You only do this once. To apply again or undo, turn on wireless debugging and tap the button. You won't need a new code.
 
@@ -62,24 +64,22 @@ Taken on an emulator (stock Android 15) set to Korean. Galaxy menus look a littl
 **4. Done**
 
 <table>
-<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-11.webp" width="220" alt="When you see Applied, you are done. Turn on the hotspot from [Open hotspot settings]."><br>When you see Applied, you are done. Turn on the hotspot from [Open hotspot settings].</td></tr>
+<tr><td width="33%" valign="top"><img src="docs/tutorial/tut-11.webp" width="220" alt="Open the hotspot settings and check internet access on a connected device."><br>Open the hotspot settings and check internet access on a connected device.</td></tr>
 </table>
 
 </details>
 
 ## Two SIMs
 
-Both SIMs get `dun` and both use that APN as default, so switching your data SIM doesn't undo anything. Restore also works per SIM and leaves the other SIM alone.
+The app reports a result for each active SIM. If two SIMs share an APN, the app changes and restores that one APN once. A SIM is flagged for review when the app cannot identify its internet APN safely.
 
 ## Checking the APN
 
-Go to Settings → Connections → Mobile networks → Access Point Names. The selected APN is the one DunDun changed; open it and the APN type ends with `dun`.
-
-Depending on the phone, `dun` is added to your existing APN or a second APN with the same name shows up. If you can't tell them apart, look for `dun` in the type. Carrier APNs like "Tethering" are left as they are. The app's done screen also lists the APN name and type for each SIM.
+Find the current APN in Settings → Connections → Mobile networks → Access Point Names. DunDun lists the APN name and type recorded for each SIM. Starting with 1.5.2, DunDun changes the existing APN type in place. Android interprets a blank type and `*` as supporting multiple uses, so they are preserved.
 
 ## Also
 
-- The top of the app shows whether it's applied right now, so you notice if a carrier update undoes it.
+- The app shows the last recorded APN result.
 - New versions download from GitHub and install on their own. You allow it once, and you can turn it off at the bottom of the app.
 - Available in 12 languages, including English, Korean, Japanese, Chinese and Spanish.
 
@@ -87,7 +87,7 @@ Depending on the phone, `dun` is added to your existing APN or a second APN with
 
 - All the code is in this repo. Read it or build it yourself.
 - There is no server behind it and no ads or analytics in it. The only thing the app talks to online is GitHub, when it checks for a new version.
-- Wireless debugging is used only to change the APN, and the app turns it off right after. Some banking apps won't open while it's on, so you don't have to go back and switch it off.
+- The app attempts to turn wireless debugging off after the operation. Turn it off in Settings if the app cannot confirm it.
 - You can turn Developer options off afterwards and the APN change stays.
 - Updates only install if signed with the same key. The signing certificate SHA-256 is `4B:4B:E3:6B:A7:5E:D7:EA:5D:86:2D:23:8D:FC:C0:7A:10:0E:57:5C:19:49:75:05:D1:12:55:F9:17:F0:C1:66`. Check a downloaded APK with `apksigner verify --print-certs dundun-*.apk`; each release also lists the APK's SHA-256.
 
@@ -96,7 +96,7 @@ These are all the permissions it asks for.
 | Permission | Used for |
 |---|---|
 | Internet | Check and download new versions from GitHub; connect to wireless debugging on the phone |
-| Network and Wi-Fi state | Check Wi-Fi and whether it's applied right now |
+| Network and Wi-Fi state | Check the Wi-Fi connection |
 | Wi-Fi multicast | Find the wireless debugging address on the phone |
 | Notifications, full-screen notifications | Keep the pairing code notification at the top |
 | Foreground service | Keep the app running while you enter the code and apply |
@@ -108,37 +108,37 @@ It doesn't ask for contacts, location, photos or files, phone, camera, or microp
 ## FAQ
 
 **Does this make tethering unlimited?**
-No. The hotspot uses your regular data instead of the tethering allowance. Once your regular data runs out, your plan's slow speed applies to the hotspot too.
+Your plan still sets data limits and speeds.
 
 **Will the tethering allowance stop going down?**
-Usually, yes. Carriers mostly tell hotspot traffic apart by APN, and now it goes out through the same APN as normal data. If your carrier detects tethering another way, it may still count it or block it. Try a little first and check in your carrier's app.
+That depends on your carrier and plan. Check internet access on the connected device and data usage in your carrier app separately.
 
 **How is this different from NetShare?**
 NetShare shares the connection through a proxy, so you set up a proxy on the laptop and some programs can't log in. DunDun only changes the phone's APN and you use the normal hotspot, with nothing to set up on the laptop.
 
 **Only on Galaxy?**
-Any phone on Android 13 or later. Galaxy phones on One UI 7+ hit this problem a lot, so it was tried there first, but APNs are standard Android.
+The app installs on Android 13 and later. Devices and carriers can restrict APN changes.
 
 **What about One UI or carrier updates?**
-They can undo or block it. The top of the app shows whether it's applied, so re-apply if it was undone. If an update blocks it entirely, please open an [issue](https://github.com/ohseyong/dundun/issues).
+Check the current APN in Settings after an update. DunDun shows the result recorded at the time of the last operation.
 
 **Can I undo it?**
-Yes. Restore original puts the APN type and default APN back, on both SIMs if you have two.
+Use Restore original when the app has saved changes. The app verifies the restore and keeps recovery records if the current APN cannot be matched or restored.
 
 ## Notes
 
 Using the hotspot past your tethering allowance may break your carrier's terms, and your line could be restricted.
 
-The full flow (pairing, apply, restore) was tested on an Android 15 emulator. Real phones and carrier lines can behave differently; please share what you see in [Issues](https://github.com/ohseyong/dundun/issues).
+The tests cover failed APN edits, repeated edits, and partial restore failures. Hotspot access and data usage have to be checked for each device, carrier, and plan.
 
 ## How it works
 
 1. The app pairs and connects to the phone's wireless debugging with [libadb-android](https://github.com/MuntashirAkon/libadb-android).
 2. From that shell it starts its own worker (`ApnBroker`) with `am instrument --no-restart`.
-3. The worker borrows the shell's `WRITE_APN_SETTINGS` permission (`adoptShellPermissionIdentity`), adds `dun` to the default APN of each active SIM, and sets that APN as default.
-4. It turns wireless debugging off with `settings put global adb_wifi_enabled 0`.
+3. The worker borrows the shell's `WRITE_APN_SETTINGS` permission (`adoptShellPermissionIdentity`), records the original type before editing an unambiguously identified internet APN.
+4. It checks that wireless debugging was turned off after the operation.
 
-Restore uses the per-SIM record saved when applying (original type and original default APN).
+Restore compares the APN identity and type with the saved record. Verified changes are removed from the recovery record.
 
 ## Build
 

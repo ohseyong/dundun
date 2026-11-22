@@ -7,15 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /** 앱이 기억하는 설정 결과. APN 표는 셸 권한 없이는 읽을 수 없어서 적용 결과를 여기 남긴다. */
-class Store(context: Context) {
+class Store(private val context: Context) {
     private val prefs: SharedPreferences =
         context.applicationContext.getSharedPreferences("state", Context.MODE_PRIVATE)
 
     var paired: Boolean
         get() = prefs.getBoolean("paired", false)
         set(v) = prefs.edit().putBoolean("paired", v).apply()
-
-    val applied: Boolean get() = prefs.getBoolean("applied", false)
 
     var autoUpdate: Boolean
         get() = prefs.getBoolean("auto_update", true)
@@ -29,11 +27,8 @@ class Store(context: Context) {
 
     val appliedAt: Long get() = prefs.getLong("applied_at", 0L)
 
-    /** 되돌리기에 필요한 값. 유심마다 "<subId>.<키>" 이고, 1.4.0 까지의 기록은 접두사가 없다. */
-    val restoreArgs: Map<String, String>
-        get() = result.filterKeys { key ->
-            key == "subs" || key in RESTORE_KEYS || key.substringAfter('.', "") in RESTORE_KEYS + "status"
-        }
+    internal val legacyResult: Map<String, String> get() = result.takeUnless { it.containsKey("format") }.orEmpty()
+    val canRestore: Boolean get() = ApnJournalStore(context).hasEntries || legacyResult.isNotEmpty()
 
     /** 유심별 결과. 예전 기록(유심 하나, 접두사 없음)은 한 덩어리로 돌려준다. */
     val simResults: List<Map<String, String>>
@@ -44,26 +39,25 @@ class Store(context: Context) {
             return subs.map { sub -> r.filterKeys { it.startsWith("$sub.") }.mapKeys { it.key.removePrefix("$sub.") } }
         }
 
-    fun saveApplied(values: Map<String, String>) {
+    fun saveResult(values: Map<String, String>) {
         prefs.edit().apply {
             prefs.all.keys.filter { it.startsWith(PREFIX) }.forEach { remove(it) }
-            putBoolean("applied", true)
+            remove("applied")
             putLong("applied_at", System.currentTimeMillis())
             values.filterKeys { it != "status" }.forEach { (k, v) -> putString(PREFIX + k, v) }
         }.apply()
     }
 
-    fun clearApplied() {
-        prefs.edit().apply {
+    fun clearResult() {
+        check(prefs.edit().apply {
             prefs.all.keys.filter { it.startsWith(PREFIX) }.forEach { remove(it) }
-            putBoolean("applied", false)
+            remove("applied")
             remove("applied_at")
-        }.apply()
+        }.commit())
     }
 
     companion object {
         private const val PREFIX = "r_"
-        val RESTORE_KEYS = listOf("mode", "source", "target", "orig", "prev")
     }
 }
 
@@ -71,10 +65,12 @@ class Store(context: Context) {
 sealed interface Work {
     data object Idle : Work
     /** 페어링 알림을 띄워 두고 코드를 기다리는 중. ready 는 페어링 화면을 찾았는지. */
-    data class WaitingCode(val ready: Boolean, @StringRes val error: Int? = null) : Work
-    data class Busy(@StringRes val text: Int) : Work
-    data class Done(val restored: Boolean) : Work
+    data class WaitingCode(val ready: Boolean, @param:StringRes val error: Int? = null) : Work
+    data class Busy(@param:StringRes val text: Int) : Work
+    data class Done(val restored: Boolean, val partial: Boolean = false) : Work
     data class Failed(val message: String) : Work
+    data object Cancelled : Work
+    data object Paired : Work
 }
 
 object WorkState {

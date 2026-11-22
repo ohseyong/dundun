@@ -8,77 +8,31 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.Switch
-import androidx.compose.runtime.rememberCoroutineScope
-import kotlinx.coroutines.launch
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.DisposableEffect
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.text.style.LineBreak
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.dimensionResource
-import androidx.annotation.StringRes
 
 class MainActivity : ComponentActivity() {
     private val resumeTick = mutableIntStateOf(0)
@@ -102,41 +56,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// ---- 색 ----
-
-private val Accent = Color(0xFF2457D6)
-private val AccentDark = Color(0xFF8DB1FF)
-
-@Composable
-private fun AppTheme(content: @Composable () -> Unit) {
-    val dark = isSystemInDarkTheme()
-    val scheme = if (dark) darkColorScheme(
-        primary = AccentDark, onPrimary = Color(0xFF0B1B44),
-        background = Color(0xFF121316), surface = Color(0xFF1B1C20),
-        onBackground = Color(0xFFECECEE), onSurface = Color(0xFFECECEE),
-        onSurfaceVariant = Color(0xFFA3A5AD), outlineVariant = Color(0xFF2E3036),
-        error = Color(0xFFFF8A80),
-    ) else lightColorScheme(
-        primary = Accent, onPrimary = Color.White,
-        background = Color(0xFFF6F6F4), surface = Color.White,
-        onBackground = Color(0xFF16181D), onSurface = Color(0xFF16181D),
-        onSurfaceVariant = Color(0xFF62656E), outlineVariant = Color(0xFFE6E6E3),
-        error = Color(0xFFC62828),
-    )
-    val base = MaterialTheme.typography
-    val phrase = LineBreak.Paragraph.copy(wordBreak = LineBreak.WordBreak.Phrase)
-    MaterialTheme(colorScheme = scheme, typography = base.copy(
-        bodyLarge = base.bodyLarge.copy(lineBreak = phrase),
-        bodyMedium = base.bodyMedium.copy(lineBreak = phrase),
-    )) {
-        ProvideTextStyle(LocalTextStyle.current.copy(lineBreak = phrase), content)
-    }
-}
-
-// ---- 화면 ----
-
-private enum class StepState { Done, Current, Waiting }
-
 @Composable
 private fun Home(tick: Int) {
     val context = LocalContext.current
@@ -148,34 +67,10 @@ private fun Home(tick: Int) {
     val devOn = Sys.devOptionsOn(context)
     val wdOn = Sys.wirelessDebuggingOn(context)
     val wifi = Sys.wifiConnected(context)
-    val carrier = Sys.carrierName(context)
-    var netTick by remember { mutableIntStateOf(0) }
-    DisposableEffect(Unit) {
-        val cm = context.getSystemService(ConnectivityManager::class.java)
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) { netTick++ }
-            override fun onLost(network: Network) { netTick++ }
-        }
-        val request = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build()
-        runCatching { cm?.registerNetworkCallback(request, callback) }
-        onDispose { runCatching { cm?.unregisterNetworkCallback(callback) } }
-    }
-    // 연결 변화 알림을 놓치는 경우를 대비해 화면이 떠 있는 동안 3초마다 다시 본다.
-    LaunchedEffect(Unit) {
-        while (true) {
-            kotlinx.coroutines.delay(3_000)
-            netTick++
-        }
-    }
-    val live = remember(netTick, tick) { Sys.liveState(context) }
-    val recorded = store.applied && !(work is Work.Done && (work as Work.Done).restored)
-    // 실제 상태를 알 수 있으면 그걸 따르고, 모르면 기록을 따른다.
-    val applied = when (live) {
-        Sys.Live.Applied -> true
-        Sys.Live.NotApplied -> false
-        Sys.Live.Unknown -> recorded
-    }
+    val sims = store.simResults
+    val canRestore = store.canRestore
     val paired = store.paired
+    val busy = work is Work.Busy || work is Work.WaitingCode
 
     var notice by remember { mutableStateOf<Int?>(null) }
     // 설정 화면에 다녀오면 안내는 지운다. 상태는 위에서 다시 읽는다.
@@ -218,12 +113,11 @@ private fun Home(tick: Int) {
     ) {
         Text(stringResource(R.string.app_name), fontSize = 26.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onBackground)
         Spacer(Modifier.height(16.dp))
-        LiveStatus(live, recorded)
-        Spacer(Modifier.height(16.dp))
-
-        if (applied) {
-            DoneCard(sims = if (recorded) store.simResults else emptyList(), appliedAt = store.appliedAt, carrier = carrier, onHotspot = { Sys.openHotspot(context) })
-        } else {
+        if (sims.isNotEmpty()) {
+            ApnResultCard(sims, store.appliedAt) { Sys.openHotspot(context) }
+            Spacer(Modifier.height(12.dp))
+        }
+        if (sims.isEmpty() || !paired) {
             // 다시 적용할 때도 무선 디버깅은 켜져 있어야 하니, 앞 단계가 끝나야 다음 단계가 열린다.
             val s1 = if (devOn) StepState.Done else StepState.Current
             val s2 = when {
@@ -282,22 +176,34 @@ private fun Home(tick: Int) {
             Secondary(stringResource(R.string.open_notification_settings)) { Sys.openNotificationSettings(context) }
         }
 
-        if (applied) {
+        val confirmation = when {
+            work == Work.Paired -> R.string.result_paired
+            (work as? Work.Done)?.restored == true -> R.string.notif_restored_text
+            else -> null
+        }
+        if (confirmation != null) {
+            Spacer(Modifier.height(12.dp))
+            Text(stringResource(confirmation))
+        }
+        if (wdOn != false && (work is Work.Done || work is Work.Failed || work == Work.Cancelled || work == Work.Paired)) {
+            Spacer(Modifier.height(12.dp))
+            ErrorText(stringResource(R.string.debug_shutdown_check))
+            Secondary(stringResource(R.string.step2_button)) { Sys.openWirelessDebugging(context) }
+        }
+        if (canRestore) {
             Spacer(Modifier.height(8.dp))
-            val restoring = work is Work.Busy
-            Text(
-                stringResource(if (restoring) (work as Work.Busy).text else R.string.restore_button),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .clickable(enabled = !restoring) { runWithDebugging(AdbService.ACTION_RESTORE) }
-                    .padding(vertical = 10.dp),
-            )
+            if (!busy) Secondary(stringResource(R.string.restore_button)) {
+                if (!paired && wdOn == true) startPairing()
+                else runWithDebugging(AdbService.ACTION_RESTORE)
+            }
+        }
+        if (paired && !busy && sims.isNotEmpty() && store.legacyResult.isEmpty()) {
+            Spacer(Modifier.height(8.dp))
+            Secondary(stringResource(R.string.step4_button)) { runWithDebugging(AdbService.ACTION_APPLY) }
         }
 
         Spacer(Modifier.height(24.dp))
-        UpdateSection(store, tick, busy = work is Work.Busy || work is Work.WaitingCode)
+        UpdateSection(store, tick, busy)
         Spacer(Modifier.height(16.dp))
         Text(
             stringResource(R.string.data_note),
@@ -309,325 +215,4 @@ private fun Home(tick: Int) {
             fontSize = 12.sp, lineHeight = 17.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
-}
-
-/** 버전, 업데이트 버튼, 자동 업데이트 스위치. */
-@Composable
-private fun UpdateSection(store: Store, tick: Int, busy: Boolean) {
-    val context = LocalContext.current
-    val scheme = MaterialTheme.colorScheme
-    val scope = rememberCoroutineScope()
-    val state by Updater.flow.collectAsState()
-    var auto by remember { mutableStateOf(store.autoUpdate) }
-
-    // 앱을 열면 한 번 확인한다. 자동 업데이트가 켜져 있고 설정 중이 아니면 바로 받는다.
-    LaunchedEffect(Unit) {
-        val release = Updater.check(context)
-        if (release != null && store.autoUpdate && !busy) Updater.downloadAndInstall(context, release)
-    }
-    // 설치 허용 화면에서 돌아오면 이어서 받는다.
-    LaunchedEffect(tick) {
-        val s = Updater.flow.value
-        if (s is Updater.State.NeedPermission && context.packageManager.canRequestPackageInstalls()) {
-            Updater.downloadAndInstall(context, s.release)
-        }
-    }
-
-    val status = when (val s = state) {
-        Updater.State.Idle, Updater.State.Checking -> stringResource(R.string.update_checking)
-        Updater.State.Latest -> stringResource(R.string.update_latest)
-        is Updater.State.Available -> stringResource(R.string.update_available, s.release.version)
-        is Updater.State.Downloading -> stringResource(R.string.update_downloading, "${s.percent}%")
-        is Updater.State.NeedPermission -> stringResource(R.string.update_allow_source)
-        Updater.State.Installing -> stringResource(R.string.update_installing)
-        Updater.State.Failed -> stringResource(R.string.update_failed)
-    }
-    Card {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text(stringResource(R.string.update_version, Updater.currentVersion(context)), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurface)
-                Spacer(Modifier.height(2.dp))
-                Text(status, fontSize = 14.sp, lineHeight = 20.sp, color = if (state is Updater.State.Available) scheme.primary else scheme.onSurfaceVariant)
-            }
-            Spacer(Modifier.width(12.dp))
-            when (val s = state) {
-                is Updater.State.Available -> Primary(stringResource(R.string.update_button)) {
-                    scope.launch { Updater.downloadAndInstall(context, s.release) }
-                }
-                is Updater.State.NeedPermission -> Secondary(stringResource(R.string.update_allow_button)) {
-                    runCatching {
-                        context.startActivity(Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:${context.packageName}")))
-                    }
-                }
-                Updater.State.Failed -> Secondary(stringResource(R.string.update_check)) {
-                    scope.launch { Updater.check(context) }
-                }
-                is Updater.State.Downloading, Updater.State.Installing, Updater.State.Checking ->
-                    CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
-                else -> Unit
-            }
-        }
-        HorizontalDivider(color = scheme.outlineVariant)
-        Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text(stringResource(R.string.update_auto), fontSize = 15.sp, color = scheme.onSurface)
-                Spacer(Modifier.height(2.dp))
-                Text(stringResource(R.string.update_auto_body), fontSize = 13.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)
-            }
-            Spacer(Modifier.width(12.dp))
-            Switch(checked = auto, onCheckedChange = {
-                auto = it
-                store.autoUpdate = it
-                Updater.schedule(context, it)
-            })
-        }
-    }
-}
-
-/** 맨 위 상태 줄. 지금 실제로 적용돼 있는지 보여 준다. */
-@Composable
-private fun LiveStatus(live: Sys.Live, recorded: Boolean) {
-    val scheme = MaterialTheme.colorScheme
-    val (title, body) = when (live) {
-        Sys.Live.Applied -> R.string.live_applied_title to R.string.live_applied_body
-        Sys.Live.NotApplied -> R.string.live_off_title to (if (recorded) R.string.live_off_body_record else R.string.live_off_body)
-        Sys.Live.Unknown -> R.string.live_unknown_title to (if (recorded) R.string.live_unknown_body_record else R.string.live_unknown_body)
-    }
-    val color = when (live) {
-        Sys.Live.Applied -> scheme.primary
-        Sys.Live.NotApplied -> if (recorded) scheme.error else scheme.onSurfaceVariant
-        Sys.Live.Unknown -> scheme.onSurfaceVariant
-    }
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(scheme.surface, RoundedCornerShape(16.dp))
-            .border(1.dp, scheme.outlineVariant, RoundedCornerShape(16.dp))
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(Modifier.size(28.dp), contentAlignment = Alignment.Center) {
-            Box(Modifier.size(12.dp).background(color, CircleShape))
-        }
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(stringResource(title), fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = if (live == Sys.Live.Unknown) scheme.onSurface else color)
-            Spacer(Modifier.height(2.dp))
-            Text(stringResource(body), fontSize = 14.sp, lineHeight = 20.sp, color = scheme.onSurfaceVariant)
-        }
-    }
-}
-
-@Composable
-private fun DoneCard(sims: List<Map<String, String>>, appliedAt: Long, carrier: String, onHotspot: () -> Unit) {
-    val scheme = MaterialTheme.colorScheme
-    Card {
-        Column(Modifier.padding(20.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    Modifier.size(28.dp).background(scheme.primary, CircleShape),
-                    contentAlignment = Alignment.Center,
-                ) { Icon(Icons.Rounded.Check, null, tint = scheme.onPrimary, modifier = Modifier.size(18.dp)) }
-                Spacer(Modifier.width(12.dp))
-                Text(stringResource(R.string.done_title), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurface)
-            }
-            Spacer(Modifier.height(10.dp))
-            Text(stringResource(R.string.done_body), fontSize = 15.sp, color = scheme.onSurface)
-            Spacer(Modifier.height(16.dp))
-            Primary(stringResource(R.string.done_hotspot), onHotspot)
-            // 핫스팟에 노트북을 붙인 사람에게 엑셀코스피를 권한다. 한국 주식 사이트라 한국어 화면에서만.
-            if (LocalConfiguration.current.locales[0].language == "ko") {
-                val context = LocalContext.current
-                Spacer(Modifier.height(14.dp))
-                Column(
-                    modifier = Modifier
-                        .clickable {
-                            runCatching {
-                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(EXCELKOSPI_URL)))
-                            }
-                        }
-                        .padding(vertical = 6.dp),
-                ) {
-                    Text(
-                        stringResource(R.string.promo_question),
-                        fontSize = 13.sp,
-                        color = scheme.onSurfaceVariant,
-                    )
-                    Text(
-                        stringResource(R.string.promo_excelkospi) + " →",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = scheme.primary,
-                    )
-                }
-            }
-        }
-        HorizontalDivider(color = scheme.outlineVariant)
-        if (sims.isEmpty()) {
-            Text(
-                stringResource(R.string.detail_no_record), fontSize = 14.sp, lineHeight = 20.sp,
-                color = scheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
-            )
-            return@Card
-        }
-        // 유심마다 한 묶음. 듀얼심이면 두 묶음이 줄로 나뉜다.
-        sims.forEachIndexed { index, result ->
-            if (index > 0) HorizontalDivider(Modifier.padding(horizontal = 20.dp), color = scheme.outlineVariant)
-            Column(Modifier.padding(horizontal = 20.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                if (index == 0) Text(stringResource(R.string.detail_header), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = scheme.onSurfaceVariant)
-                val sim = listOfNotNull(
-                    result["sim_carrier"]?.takeIf { it.isNotBlank() } ?: carrier.takeIf { it.isNotBlank() && sims.size == 1 },
-                    result["sim_slot"]?.takeIf { it.isNotBlank() }?.let { stringResource(R.string.detail_sim_slot, it) },
-                ).joinToString(" · ")
-                Detail(stringResource(R.string.detail_sim), sim)
-                if (result["status"] == "error") {
-                    Text(stringResource(R.string.detail_sim_failed, result["error"].orEmpty()), fontSize = 14.sp, lineHeight = 20.sp, color = scheme.error)
-                    return@Column
-                }
-                Detail(stringResource(R.string.detail_name), result["name"].orEmpty())
-                Detail(stringResource(R.string.detail_apn), result["apn"].orEmpty())
-                val mcc = result["mcc"].orEmpty()
-                val mnc = result["mnc"].orEmpty()
-                if (mcc.isNotBlank()) Detail(stringResource(R.string.detail_mcc_mnc), "$mcc / $mnc")
-                DetailRow(stringResource(R.string.detail_type)) { TypeText(result["type"].orEmpty()) }
-                val orig = result["orig"].orEmpty()
-                if (result["mode"] != "already" && orig.isNotBlank()) DetailRow(stringResource(R.string.detail_old_type)) { TypeText(orig, highlight = false) }
-                val protocol = result["protocol"].orEmpty()
-                if (protocol.isNotBlank()) Detail(stringResource(R.string.detail_protocol), protocol)
-                Detail(stringResource(R.string.detail_mode), stringResource(modeLabel(result["mode"])))
-                Detail(stringResource(R.string.detail_preferred), stringResource(if (result["preferred"] == "false") R.string.detail_preferred_no else R.string.detail_preferred_yes))
-                if (appliedAt > 0 && index == sims.lastIndex) {
-                    Detail(stringResource(R.string.detail_time), java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT).format(java.util.Date(appliedAt)))
-                }
-            }
-        }
-    }
-}
-
-private const val EXCELKOSPI_URL = "https://excelkospi.ai/?utm_source=dundun&utm_medium=app&utm_campaign=done"
-
-@StringRes
-private fun modeLabel(mode: String?): Int = when (mode) {
-    "copy" -> R.string.mode_copy
-    "already" -> R.string.mode_already
-    else -> R.string.mode_merge
-}
-
-@Composable
-private fun Detail(label: String, value: String) {
-    DetailRow(label) {
-        Text(value.ifBlank { "-" }, fontSize = 14.sp, lineHeight = 20.sp, color = MaterialTheme.colorScheme.onSurface)
-    }
-}
-
-@Composable
-private fun DetailRow(label: String, value: @Composable () -> Unit) {
-    // 이름 칸 너비를 고정해 값이 한 줄로 맞춰지게 한다.
-    Row(Modifier.fillMaxWidth()) {
-        Text(label, fontSize = 14.sp, lineHeight = 20.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(dimensionResource(R.dimen.detail_label_width)).padding(end = 8.dp))
-        Box(Modifier.weight(1f)) { value() }
-    }
-}
-
-/** APN 타입 목록에서 dun 만 강조한다. */
-@Composable
-private fun TypeText(types: String, highlight: Boolean = true) {
-    val scheme = MaterialTheme.colorScheme
-    val parts = types.split(",").map(String::trim).filter(String::isNotEmpty)
-    val text = buildAnnotatedString {
-        parts.forEachIndexed { i, t ->
-            if (i > 0) append(", ")
-            if (highlight && t.equals("dun", true)) withStyle(SpanStyle(color = scheme.primary, fontWeight = FontWeight.SemiBold)) { append(t) }
-            else append(t)
-        }
-    }
-    Text(if (parts.isEmpty()) AnnotatedString("-") else text, fontSize = 14.sp, lineHeight = 20.sp, color = scheme.onSurface)
-}
-
-// ---- 부품 ----
-
-@Composable
-private fun Card(content: @Composable () -> Unit) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(16.dp)),
-    ) { content() }
-}
-
-@Composable
-private fun Divider() = HorizontalDivider(Modifier.padding(start = 60.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-@Composable
-private fun Step(number: Int, title: String, body: String, state: StepState, action: @Composable () -> Unit) {
-    val scheme = MaterialTheme.colorScheme
-    Row(Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 18.dp)) {
-        // 번호 칸은 28dp 고정, 글은 모두 같은 왼쪽 선에서 시작한다.
-        Box(
-            Modifier.size(28.dp).then(
-                when (state) {
-                    StepState.Done -> Modifier.background(scheme.primary, CircleShape)
-                    StepState.Current -> Modifier.border(1.5.dp, scheme.primary, CircleShape)
-                    StepState.Waiting -> Modifier.border(1.dp, scheme.outlineVariant, CircleShape)
-                }
-            ),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (state == StepState.Done) {
-                Icon(Icons.Rounded.Check, null, tint = scheme.onPrimary, modifier = Modifier.size(18.dp))
-            } else {
-                Text(
-                    number.toString(), fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
-                    color = if (state == StepState.Current) scheme.primary else scheme.onSurfaceVariant,
-                )
-            }
-        }
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f).padding(top = 3.dp)) {
-            Text(
-                title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold,
-                color = if (state == StepState.Waiting) scheme.onSurfaceVariant else scheme.onSurface,
-            )
-            if (state == StepState.Current) {
-                Spacer(Modifier.height(4.dp))
-                Text(body, fontSize = 14.sp, lineHeight = 20.sp, color = scheme.onSurfaceVariant)
-                Spacer(Modifier.height(12.dp))
-                action()
-            }
-        }
-    }
-}
-
-@Composable
-private fun Primary(text: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        shape = RoundedCornerShape(10.dp),
-        contentPadding = PaddingValues(horizontal = 18.dp, vertical = 10.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-    ) { Text(text, fontSize = 15.sp, fontWeight = FontWeight.Medium) }
-}
-
-@Composable
-private fun Secondary(text: String, onClick: () -> Unit) {
-    OutlinedButton(
-        onClick = onClick,
-        shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        contentPadding = PaddingValues(horizontal = 18.dp, vertical = 10.dp),
-    ) { Text(text, fontSize = 15.sp, color = MaterialTheme.colorScheme.onSurface) }
-}
-
-@Composable
-private fun Status(text: String, busy: Boolean) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        if (busy) CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
-        Text(text, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.primary)
-    }
-}
-
-@Composable
-private fun ErrorText(text: String) {
-    Text(text, fontSize = 14.sp, lineHeight = 20.sp, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = 6.dp))
 }

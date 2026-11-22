@@ -9,11 +9,12 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.os.Build
+import android.os.Handler
 import android.os.IBinder
-import android.telephony.SubscriptionManager
+import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.StringRes
-import io.github.muntashirakon.adb.AdbPairingRequiredException
 import io.github.muntashirakon.adb.android.AdbMdns
 import java.util.concurrent.Executors
 
@@ -29,7 +30,6 @@ class AdbService : Service() {
     @Volatile private var busy = false
 
     override fun onBind(intent: Intent?): IBinder? = null
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createChannel()
         getSystemService(NotificationManager::class.java).cancel(RESULT_ID)
@@ -46,6 +46,7 @@ class AdbService : Service() {
             }
             ACTION_APPLY -> run(R.string.busy_applying) { connectAndRun("apply") }
             ACTION_RESTORE -> run(R.string.busy_restoring) { connectAndRun("restore") }
+            ACTION_CANCEL -> if (!busy) finish(Work.Cancelled)
             else -> {
                 // startForegroundService 로 왔으면 한 번은 startForeground 를 불러야 한다.
                 show(working(R.string.busy_cleaning))
@@ -60,8 +61,6 @@ class AdbService : Service() {
         worker.shutdownNow()
         super.onDestroy()
     }
-
-    // ---- 흐름 ----
 
     private fun waitForCode(@StringRes error: Int?) {
         WorkState.set(Work.WaitingCode(ready = pairPort > 0, error = error))
@@ -99,104 +98,61 @@ class AdbService : Service() {
             waitForCode(R.string.err_code_wrong)
             return
         }
-        Store(this).paired = true
+        val store = Store(this)
+        store.paired = true
         stopMdns()
-        connectAndRun("apply")
+        connectAndRun(if (store.canRestore) null else "apply")
     }
 
-    private fun connectAndRun(op: String) {
+    private fun connectAndRun(op: String?) {
         val store = Store(this)
-        val adb = AdbManager.get(this)
-        try {
+        var adb: AdbManager? = null
+        val finished = try {
             WorkState.set(Work.Busy(R.string.busy_connecting))
-            connect(adb, store)
+            val client = AdbManager.get(this).also { adb = it }
+            AdbConnection(this).connect(client, store)
 
-            val sub = Sys.dataSubId()
-            if (sub == SubscriptionManager.INVALID_SUBSCRIPTION_ID) throw UserError(getString(R.string.err_no_data_sim))
+            if (op == null) Work.Paired else executeApnOperation(client, store, op)
+        } catch (error: AdbConnectionError) {
+            Work.Failed(error.message.orEmpty())
+        } catch (error: Exception) {
+            Log.e(TAG, "APN operation failed", error)
+            Work.Failed(getString(R.string.err_failed, error.message ?: error.javaClass.simpleName))
+        } finally {
+            adb?.let(::closeDebugging)
+        }
+        finish(finished)
+    }
 
-            val busyText = if (op == "apply") R.string.busy_applying_apn else R.string.busy_restoring
-            WorkState.set(Work.Busy(busyText))
-            show(working(busyText))
-            // sub 는 유심 목록을 못 읽을 때와 예전 기록을 되돌릴 때 쓰는 기본값이다. 실제로는 쓰고 있는 유심 모두에 한다.
-            val args = buildMap {
-                put("op", op)
-                put("sub", sub.toString())
-                if (op == "restore") putAll(store.restoreArgs)
+    private fun executeApnOperation(client: AdbManager, store: Store, op: String): Work {
+        val busyText = if (op == "apply") R.string.busy_applying_apn else R.string.busy_restoring
+        WorkState.set(Work.Busy(busyText))
+        show(working(busyText))
+        val output = client.exec("am instrument -w --no-restart -e op ${quote(op)} $packageName/.ApnBroker")
+        val result = AdbConnection.parseInstrument(output)
+        val status = result["status"]
+        if (op == "apply" && result["format"] == "2") store.saveResult(result)
+        if (status != "ok" && status != "partial") {
+            Log.w(TAG, "APN operation did not complete")
+            throw AdbConnectionError(result["error"] ?: getString(R.string.err_apply_failed))
+        }
+        return Work.Done(restored = op == "restore", partial = status == "partial")
+    }
+
+    private fun closeDebugging(adb: AdbManager) {
+        try {
+            if (adb.isConnected && Sys.wirelessDebuggingOn(this) != false) {
+                runCatching { adb.exec("settings put global adb_wifi_enabled 0", 5_000) }
+                val deadline = SystemClock.elapsedRealtime() + 1_500
+                while (Sys.wirelessDebuggingOn(this) != false && SystemClock.elapsedRealtime() < deadline) {
+                    Thread.sleep(100)
+                }
             }
-            val command = buildString {
-                append("am instrument -w --no-restart")
-                args.forEach { (k, v) -> append(" -e ").append(k).append(' ').append(quote(v)) }
-                append(' ').append(packageName).append("/.ApnBroker")
-            }
-            val output = adb.exec(command)
-            val result = parseInstrument(output)
-            if (result["status"] != "ok") {
-                Log.w(TAG, "broker output: $output")
-                throw UserError(result["error"] ?: getString(R.string.err_apply_failed, output.lineSequence().lastOrNull { it.isNotBlank() }.orEmpty()))
-            }
-
-            if (op == "apply") store.saveApplied(result) else store.clearApplied()
-
-            // 할 일이 끝났으니 무선 디버깅은 끈다. 이 명령으로 연결도 끊긴다.
-            runCatching { adb.exec("settings put global adb_wifi_enabled 0", 5_000) }
-            finish(Work.Done(restored = op == "restore"))
-        } catch (e: UserError) {
-            finish(Work.Failed(e.message.orEmpty()))
-        } catch (t: Throwable) {
-            Log.e(TAG, "run failed", t)
-            finish(Work.Failed(getString(R.string.err_failed, t.message ?: t.javaClass.simpleName)))
+        } catch (error: Exception) {
+            Log.w(TAG, "Could not verify wireless debugging shutdown", error)
         } finally {
             runCatching { adb.disconnect() }
         }
-    }
-
-    /**
-     * 무선 디버깅에 붙는다. 막 켠 직전에는 지난번 포트가 먼저 잡혀 거절될 수 있어서 몇 번 다시 해 본다.
-     */
-    private fun connect(adb: AdbManager, store: Store) {
-        var last: Throwable? = null
-        repeat(3) { attempt ->
-            if (adb.isConnected) return
-            // 막 다시 켠 직후에는 지난번 포트 기록이 먼저 잡힐 수 있어서, 찾은 포트를 모두 최근 것부터 시도한다.
-            val endpoints = discoverConnectPorts(if (attempt == 0) 8_000 else 5_000)
-            for ((host, port) in endpoints.reversed()) {
-                try {
-                    if (adb.connect(host, port) || adb.isConnected) return
-                } catch (e: AdbPairingRequiredException) {
-                    store.paired = false
-                    throw UserError(getString(R.string.err_repair))
-                } catch (t: Throwable) {
-                    Log.w(TAG, "connect $port failed: ${t.message}")
-                    last = t
-                }
-            }
-            Thread.sleep(1_500)
-        }
-        Log.w(TAG, "connect gave up", last)
-        throw UserError(getString(R.string.err_connect))
-    }
-
-    /** mDNS 로 무선 디버깅 연결 포트를 찾는다. 처음 찾은 뒤 잠깐 더 기다려 다른 기록도 모은다. */
-    private fun discoverConnectPorts(timeoutMs: Long): List<Pair<String, Int>> {
-        val found = java.util.Collections.synchronizedList(mutableListOf<Pair<String, Int>>())
-        val first = java.util.concurrent.CountDownLatch(1)
-        val finder = AdbMdns(this, AdbMdns.SERVICE_TYPE_TLS_CONNECT) { host, port ->
-            val address = host?.hostAddress
-            if (address != null && port > 0) {
-                synchronized(found) {
-                    found.remove(address to port)
-                    found.add(address to port)
-                }
-                first.countDown()
-            }
-        }
-        finder.start()
-        try {
-            if (first.await(timeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS)) Thread.sleep(1_500)
-        } finally {
-            finder.stop()
-        }
-        return synchronized(found) { found.toList() }
     }
 
     private fun finish(result: Work?) {
@@ -206,11 +162,9 @@ class AdbService : Service() {
         // 진행 알림은 지우고, 결과는 다른 번호로 새로 띄운다. 같은 번호를 빠르게 고치면 마지막 갱신이 버려질 수 있다.
         stopForeground(STOP_FOREGROUND_REMOVE)
         nm.cancel(NOTIFY_ID)
-        if (result != null) nm.notify(RESULT_ID, resultNotification(result))
+        if (result != null) nm.notify(RESULT_ID, resultNotification(this, base(), result))
         stopSelf()
     }
-
-    // ---- 페어링 포트 찾기 ----
 
     private fun startMdns() {
         if (mdns != null) return
@@ -247,10 +201,8 @@ class AdbService : Service() {
     }
 
     private fun startMdnsOnMain() {
-        if (mdns == null) android.os.Handler(mainLooper).post { startMdns() }
+        if (mdns == null) Handler(mainLooper).post { startMdns() }
     }
-
-    // ---- 알림 ----
 
     private fun createChannel() {
         val nm = getSystemService(NotificationManager::class.java)
@@ -286,7 +238,7 @@ class AdbService : Service() {
             .also { builder ->
                 // 전체 화면 알림으로 지정하면, 폰을 쓰는 중에는 위쪽 알림이 저절로 들어가지 않고 계속 떠 있는다.
                 val nm = getSystemService(NotificationManager::class.java)
-                if (nm.canUseFullScreenIntent()) builder.setFullScreenIntent(openApp(), true)
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE || nm.canUseFullScreenIntent()) builder.setFullScreenIntent(openApp(), true)
             }
             .setCategory(Notification.CATEGORY_REMINDER)
             .setContentTitle(getString(if (error != null) R.string.notif_retry_title else R.string.notif_code_title))
@@ -305,35 +257,6 @@ class AdbService : Service() {
         .setOngoing(true)
         .build()
 
-    private fun resultNotification(result: Work): Notification = when (result) {
-        is Work.Done -> base()
-            .setContentTitle(getString(if (result.restored) R.string.notif_restored_title else R.string.notif_done_title))
-            .setContentText(doneText(result.restored, short = true))
-            .setStyle(Notification.BigTextStyle().bigText(doneText(result.restored, short = false)))
-            .setAutoCancel(true)
-            .build()
-        is Work.Failed -> base()
-            .setContentTitle(getString(R.string.notif_failed_title))
-            .setContentText(result.message)
-            .setStyle(Notification.BigTextStyle().bigText(result.message))
-            .setAutoCancel(true)
-            .build()
-        else -> base().setContentTitle(getString(R.string.app_name)).setAutoCancel(true).build()
-    }
-
-    private fun doneText(restored: Boolean, short: Boolean): String {
-        if (restored) return getString(R.string.notif_restored_text)
-        val sims = Store(this).simResults.filter { it["status"] != "error" }
-        if (sims.size > 1) return getString(R.string.notif_done_multi, sims.size.toString())
-        val r = sims.firstOrNull().orEmpty()
-        val name = r["name"].orEmpty().ifBlank { r["apn"].orEmpty() }
-        val apn = r["apn"].orEmpty()
-        if (name.isBlank()) return getString(R.string.notif_hotspot)
-        if (short) return getString(R.string.notif_done_short, name)
-        val where = if (apn.isNotBlank() && apn != name) "$name($apn)" else name
-        return getString(R.string.notif_done_long, where)
-    }
-
     private fun openApp(): PendingIntent = PendingIntent.getActivity(
         this, 0, Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
@@ -343,8 +266,6 @@ class AdbService : Service() {
         this, 2, Intent(this, AdbService::class.java).setAction(ACTION_CANCEL),
         PendingIntent.FLAG_IMMUTABLE,
     )
-
-    private class UserError(message: String) : Exception(message)
 
     companion object {
         private const val TAG = "AdbService"
@@ -363,13 +284,5 @@ class AdbService : Service() {
         }
 
         private fun quote(value: String) = "'" + value.replace("'", "'\\''") + "'"
-
-        /** `am instrument -w` 출력에서 INSTRUMENTATION_RESULT 줄을 모은다. */
-        fun parseInstrument(output: String): Map<String, String> = output.lineSequence()
-            .map { it.trim() }
-            .filter { it.startsWith("INSTRUMENTATION_RESULT: ") }
-            .map { it.removePrefix("INSTRUMENTATION_RESULT: ") }
-            .mapNotNull { line -> line.indexOf('=').takeIf { it > 0 }?.let { line.substring(0, it) to line.substring(it + 1) } }
-            .toMap()
     }
 }
